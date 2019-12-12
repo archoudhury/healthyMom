@@ -10,6 +10,7 @@ namespace HealthyMom.Models
         public string Address { get; set; }
         public string WorkerName { get; set; }
         public string WorkerId { get; set; }
+        public string Zip { get; set; }
         public DateTime CreatedDate { get; set; }
         public long CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
