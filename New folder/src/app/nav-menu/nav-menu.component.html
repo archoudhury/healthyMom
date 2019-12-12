@@ -3,8 +3,7 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']" title="Healthy Mom Healty Nation">Healthy Mom Healty Nation
-      <img src="../../assets/healthywomen.png"> </a>
+      <a class="navbar-brand" [routerLink]="['/']">HealthyMom</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -29,23 +28,13 @@
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/dashboard']"
-              >Dashboard</a
+            <a class="nav-link text-dark" [routerLink]="['/counter']"
+              >Counter</a
             >
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
               >Fetch data</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/register']"
-              >Register</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/login']"
-            >Login</a
             >
           </li>
         </ul>
