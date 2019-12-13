@@ -63,9 +63,9 @@ export class RegistrationComponent implements OnInit {
       UserName: ['', Validators.required],
       Password: ['', [Validators.required, Validators.minLength(6)]]
     });
-    this.userService.getUser().subscribe((user: IUser) => {
+    // this.userService.getUser().subscribe((user: IUser) => {
 
-    })
+    // })
   }
 
   // convenience getter for easy access to form fields

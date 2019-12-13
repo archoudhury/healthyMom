@@ -1,0 +1,45 @@
+<h2>
+    Todays appointments
+</h2>
+
+<hr>
+<ngx-datatable class="material" [rows]="rows" [columnMode]="ColumnMode.force" [columns]="columns" [headerHeight]="50" [footerHeight]="50"
+    rowHeight="auto" [limit]="5" [selected]="selected" [selectionType]="SelectionType.single" (activate)="onActivate($event)"
+    (select)="onSelect($event)">
+    <ngx-datatable-column *ngFor="let col of columns" [flexGrow]="col.size || 1" [name]="col.prop" [sortable]="true" [canAutoResize]="true" [draggable]="true" [resizeable]="true">
+            <ng-template ngx-datatable-header-template let-sort="sortFn">
+                <span (click)="sort()">{{ col.label }}</span>
+            </ng-template>
+        </ngx-datatable-column>
+</ngx-datatable>
+
+<div style="display:none;" #commentPoUp>
+    <!-- <div class="header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="body"></div>
+    <h2>Mother Information</h2> -->
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mother Details</h5>
+                <button (click)="closePopUp()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="divOverlay" (click)="closePopUp()"></div>

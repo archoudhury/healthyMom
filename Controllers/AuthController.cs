@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using HealthyMom.Models;
 using HealthyMom.Models.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +13,14 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HealthyMom.Controllers
 {
+
+    public class UserLogin
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private MotherContext context;
@@ -23,11 +30,10 @@ namespace HealthyMom.Controllers
             context = _context;
             configuration = _configuration;
         }
-        [Route("login")]
-        [HttpPost]
-        public IActionResult Login(string username, string password)
+        [HttpPost("login")]
+        public IActionResult Login([FromBody]UserLogin userForLoginDto)
         {
-            var user = context.User.FirstOrDefault(x => x.Username == username && password==x.Password);
+            var user = context.User.FirstOrDefault(x => x.Username == userForLoginDto.Username && userForLoginDto.Password == x.Password);
             if (user != null)
             {
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
@@ -44,7 +50,15 @@ namespace HealthyMom.Controllers
                    claims: claims, expires: DateTime.Now.AddHours(1),
                    signingCredentials: credentials
                     );
-                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+
+                var UserDetail = new UserDetail()
+                {
+                    Id = user.Id,
+                    UserName = user.Username,
+                    Role = user.UserType,
+                    Token = new JwtSecurityTokenHandler().WriteToken(token)
+                };
+                return Ok(UserDetail);
             }
             return BadRequest("Invalid Crentials");
         }

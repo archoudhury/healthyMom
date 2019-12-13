@@ -10,6 +10,10 @@ app-nav-menu{
 html {
   font-size: 14px;
 }
+
+ul{
+  list-style: none;
+}
 @media (min-width: 768px) {
   html {
     font-size: 16px;

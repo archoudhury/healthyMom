@@ -24,7 +24,7 @@ export class SignInComponent implements OnInit {
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
             UserName: ['', Validators.required],
-            Password: ['', [Validators.required, Validators.minLength(6)]]
+            Password: ['', [Validators.required, Validators.minLength(5)]]
         });
     }
 
@@ -41,10 +41,13 @@ export class SignInComponent implements OnInit {
         console.log(this.router.url);
 
         this.loading = true;
-        if (this.userService.checkUser(this.loginForm.value.UserName, this.loginForm.value.Password)) {
+        this.userService.checkUser(this.loginForm.value.UserName, this.loginForm.value.Password).subscribe((result: any) => {
+            console.log(result)
+        })
+        if (true) {
             this.loading = false;
             this.errorOccured = false;
-            this.router.navigate(['/dashboard']);
+            // this.router.navigate(['/dashboard']);
         } else {
             this.loading = false;
             this.errorOccured = true;

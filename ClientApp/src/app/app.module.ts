@@ -23,6 +23,9 @@ import { AuthAdminGuard } from './security/gaurds/admin.gaurd';
 import { AuthAnganwadiGuard } from './security/gaurds/anganwadi.gaurd';
 import { AuthMotherGuard } from './security/gaurds/mother.gaurd';
 import { AuthDoctorGuard } from './security/gaurds/doctor.gaurd';
+import { AnganwadiComponent } from './anganwadi/anganwadi.component';
+import { NotFoundComponent } from './not-found/notfound.component';
+import { SignUpComponent } from './sign-up/signup.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { AuthDoctorGuard } from './security/gaurds/doctor.gaurd';
     DashboardComponent,
     HistoryComponent,
     ToDoComponent,
-    PersonaldetailComponent
+    PersonaldetailComponent,
+    AnganwadiComponent,
+    NotFoundComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,11 +53,20 @@ import { AuthDoctorGuard } from './security/gaurds/doctor.gaurd';
     NgxDatatableModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: SignInComponent },
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'signup', component: SignUpComponent },      
+      
+      { path: 'dashboard',canActivate:[AuthDoctorGuard], component: DashboardComponent },
       { path: 'register', component: RegistrationComponent },
+      { path: 'history', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
+      { path: 'todo', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
+      { path: 'detail', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
+      { path: 'anganwadi/appointment', component: AnganwadiComponent },
+      { path: 'update', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
+      { path: 'not-found', component: NotFoundComponent },
+
+      { path: '**', redirectTo: 'not-found' }
+
     ])
   ],
   providers: [

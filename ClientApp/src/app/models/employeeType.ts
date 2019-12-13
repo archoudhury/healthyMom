@@ -1,6 +1,6 @@
 export enum EmployeeType {
     Admin = 1,
-    Doctor,
-    Anganwadi,
-    Mother,
+    Doctor = 2,
+    Anganwadi = 3,
+    Mother = 4
 }
