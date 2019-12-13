@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HealthyMom.Models;
 using HealthyMom.Models.Context;
 using HealthyMom.ViewModelsAndEnum;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -31,7 +27,6 @@ namespace HealthyMom.Controllers
         {
             var mother = new Mother
             {
-                Id = model.MotherId,
                 Name = model.MotherName,
                 HusbandName = model.HusbandName,
                 FertilityDate = model.FertilityDate,
@@ -40,9 +35,10 @@ namespace HealthyMom.Controllers
                 OtherComplications = model.OtherComplications,
                 NumberOfBabies = model.NumberOfBabies,
                 NumberOfPregnency = model.NumberOfPregnency,
+                Anganwadi = model.AnganwadiId,
                 Zip = model.Zip,
                 CreatedBy = CurrentUser.Id,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.Now
             };
 
             var user = new User
@@ -52,10 +48,11 @@ namespace HealthyMom.Controllers
                 Aadhar = model.Aadhar,
                 Mobile = model.Mobile,
                 Email = model.Email,
+                UserType = (short)UserType.Mother,
                 CreatedBy = CurrentUser.Id,
                 CreatedDate = DateTime.Now
             };
-            return Ok();
+            throw new NotImplementedException();
         }
     }
 }
