@@ -6,6 +6,7 @@ namespace HealthyMom.Models
     public partial class Anganwadi
     {
         public long Id { get; set; }
+        public long UserId { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string WorkerName { get; set; }

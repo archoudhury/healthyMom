@@ -27,7 +27,7 @@ namespace HealthyMom.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            var user = context.User.FirstOrDefault(x => x.Username == username && password==x.Password);
+            var user = context.User.FirstOrDefault(x => x.Username == username && password == x.Password);
             if (user != null)
             {
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
@@ -36,6 +36,7 @@ namespace HealthyMom.Controllers
                     new Claim(JwtRegisteredClaimNames.Sub,user.Username),
                     new Claim(JwtRegisteredClaimNames.Email,user.Email),
                     new Claim("userId",user.Id.ToString()),
+                    new Claim("userType",((UserType)user.UserType).ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                 };
                 var token = new JwtSecurityToken(
@@ -48,9 +49,5 @@ namespace HealthyMom.Controllers
             }
             return BadRequest("Invalid Crentials");
         }
-    }
-
-    internal class ICOnfiguration
-    {
     }
 }

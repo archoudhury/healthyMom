@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HealthyMom.Models.Context;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,7 @@ namespace HealthyMom.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AppointmentController : ControllerBase
+    public class AppointmentController : MyControllerBase
     {
         private MotherContext context;
         private IConfiguration configuration;
@@ -24,18 +25,18 @@ namespace HealthyMom.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            short userType=0;
-            return Ok(context.Appointment.Where(u=>u.Type==userType).ToList());
+
+            return Ok(context.Appointment.Where(u => u.Type == (short)CurrentUser.UserType).ToList());
         }
         [HttpGet]
         [Route("Today")]
         public IActionResult Today()
         {
-            short userType = 0;
-            return Ok(context.Appointment.Where(u => 
-            u.Type == userType && 
-            u.Date.Date == DateTime.Now.Date
-            ).ToList());
+            return Ok(
+                context.Appointment.Where(u =>
+                u.Type == (short)CurrentUser.UserType &&
+                u.Date.Date == DateTime.Now.Date).ToList()
+            );
         }
 
         [HttpGet]
@@ -56,15 +57,16 @@ namespace HealthyMom.Controllers
             return Ok(otp);
         }
 
-        [HttpPost][Route("ValidateOtp/{id}")]
+        [HttpPost]
+        [Route("ValidateOtp/{id}")]
         public IActionResult ValidateOtp(long id, [FromBody]int otp)
         {
-            var appointment = context.Appointment.FirstOrDefault(x => x.Id == id && x.Otp==otp);
-            if (appointment==null)
+            var appointment = context.Appointment.FirstOrDefault(x => x.Id == id && x.Otp == otp);
+            if (appointment == null)
             {
                 return BadRequest("Invalid OTP");
             }
-            if (appointment.OtpExpiry<DateTime.Now)
+            if (appointment.OtpExpiry < DateTime.Now)
             {
                 return BadRequest("OTP Expired");
             }
