@@ -26,6 +26,7 @@ import { AuthDoctorGuard } from './security/gaurds/doctor.gaurd';
 import { AnganwadiComponent } from './anganwadi/anganwadi.component';
 import { NotFoundComponent } from './not-found/notfound.component';
 import { SignUpComponent } from './sign-up/signup.component';
+import { UtilityService } from './services/utility';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { SignUpComponent } from './sign-up/signup.component';
     AuthAdminGuard,
     AuthAnganwadiGuard,
     AuthMotherGuard,
-    AuthDoctorGuard
+    AuthDoctorGuard,
+    UtilityService
   ],
   bootstrap: [AppComponent]
 })

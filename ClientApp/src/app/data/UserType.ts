@@ -17,3 +17,11 @@ export const AnganwadiList = [
     { "id": 9, "itemName": "Anganwadi 9", prop: "anganwadi9" },
     { "id": 10, "itemName": "Anganwadi 10", prop: "anganwadi10" }
 ];
+
+export const DoctorList = [
+    { "id": 1, "itemName": "Doctor 1", prop: "doctor1" },
+    { "id": 2, "itemName": "Doctor 2", prop: "doctor2" },
+    { "id": 3, "itemName": "Doctor 3", prop: "doctor3" },
+    { "id": 4, "itemName": "Doctor 4", prop: "doctor4" },
+    { "id": 5, "itemName": "Doctor 5", prop: "doctor5" },
+];

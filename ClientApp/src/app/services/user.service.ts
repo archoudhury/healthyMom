@@ -5,10 +5,12 @@ import { EmployeeType } from "../models/employeeType";
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { tap, map, catchError } from 'rxjs/operators';
 import { UserDetail } from "../models/userDetail";
+import { IMotherRegistration } from "../models/IMotherRegistration";
 @Injectable()
 export class UserService {
 
     readonly login = 'api/Auth/login';
+    readonly registorMom = 'api/Doctor/RegisterMother';
 
     constructor(private httpClient: HttpClient) {
         if (this.userList.length == 0) {
@@ -22,9 +24,18 @@ export class UserService {
     private userListSubject = new Subject<IUser[]>();
     private userList: IUser[] = [];
 
-    addUser(user: IUser) {
-        this.userList.push(user);
-        this.userListSubject.next(this.userList.slice());
+    registerMother(motherReg: IMotherRegistration) {
+        let headersObj = new HttpHeaders({ 'Content-Type': 'application/json' });
+        let self = this;
+        const url = `${this.registorMom}`;
+        return this.httpClient.post(url, motherReg, { headers: headersObj, observe: "response" }).pipe(
+            map((p) => this.extractData2(p)),
+            tap(data => {
+                localStorage.setItem('token', data.token);
+                this.userSubject.next(data);
+            }),
+            catchError(error => this.handleError(error, self))
+        );
     }
 
     getUser(): Observable<UserDetail> {

@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { IUser } from '../models/IUser';
+import { IMotherRegistration } from '../models/IMotherRegistration'
+import { UtilityService } from '../services/utility';
+import { DoctorList, AnganwadiList } from '../data/UserType';
 
 @Component({
   selector: 'app-registration',
@@ -11,12 +14,14 @@ import { IUser } from '../models/IUser';
 })
 export class RegistrationComponent implements OnInit {
   public user: any;
-  dropdownList = [];
-  dropdownListForUserType = [];
-  selectedUserType = [];
+  dropdownAnganwadiList = AnganwadiList;
+  dropdownDoctorList = DoctorList;
+
   selectedAnganwadi = [];
+  selectedDoctor = [];
   dropdownSettings = {};
   registerForm: FormGroup;
+  motherReg: IMotherRegistration;
   loading = false;
   submitted = false;
   adharPattern = "^[0-9]{10}$";
@@ -24,48 +29,55 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private utilityService: UtilityService
   ) { }
 
   ngOnInit() {
-    this.dropdownList = [
-      { "id": 1, "itemName": "Anganwadi 1" },
-      { "id": 2, "itemName": "Anganwadi 2" },
-      { "id": 3, "itemName": "Anganwadi 3" },
-      { "id": 4, "itemName": "Anganwadi 4" },
-      { "id": 5, "itemName": "Anganwadi 5" },
-      { "id": 6, "itemName": "Anganwadi 6" },
-      { "id": 7, "itemName": "Anganwadi 7" },
-      { "id": 8, "itemName": "Anganwadi 8" },
-      { "id": 9, "itemName": "Anganwadi 9" },
-      { "id": 10, "itemName": "Anganwadi 10" }
-    ];
     this.dropdownSettings = {
       singleSelection: true,
-      text: "Select Anganwadi",
+      text: "Select one",
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       enableSearchFilter: true,
       classes: "myclass custom-class"
     };
     this.registerForm = this.formBuilder.group({
-      FirstName: ['', Validators.required],
-      anganwadi: [[], Validators.required],
-      userType: [[], Validators.required],
-      LastName: ['', Validators.required],
-      Adhar: ['', [Validators.required, Validators.pattern('[0-9]{16}')  // validates input is digit
+      motherName: ['', Validators.required],
+      email: ['', Validators.required],
+      aadhar: ['', [Validators.required, Validators.pattern('[0-9]{16}')  // validates input is digit
       ]],
-      Number: ['', [
-        Validators.required,
-        Validators.pattern('[0-9]{10}')  // validates input is digit
+      mobile: ['', [
+        Validators.required, Validators.pattern('[0-9]{10}')  // validates input is digit
       ]],
-      //   fileUpload: [[], Validators.required],
-      UserName: ['', Validators.required],
-      Password: ['', [Validators.required, Validators.minLength(6)]]
+      zip: ['', Validators.required],
+      doctorVisitDayOfMonth: ['', Validators.required],
+      anganwadiVisitDayOfWeek: ['', Validators.required],
+      anganwadi: ['', Validators.required],
+      fertilityDate: ['', Validators.required],
+      expectedDeliveryDate: ['', Validators.required],
+      doctor: ['', Validators.required],
+      isHivInfected: ['', Validators.required],
+      otherComplications: ['', Validators.required],
+      numberOfBabies: ['', Validators.required],
+      numberOfPregnency: ['', Validators.required],
+      husbandName: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      // motherName: ['', Validators.required],
+      // anganwadi: [[], Validators.required],
+      // email: ['', Validators.required],
+      // userType: [[], Validators.required],
+      // LastName: ['', Validators.required],
+      // aadhar: ['', [Validators.required, Validators.pattern('[0-9]{16}')  // validates input is digit
+      // ]],
+      // mobile: ['', [
+      //   Validators.required,
+      //   Validators.pattern('[0-9]{10}')  // validates input is digit
+      // ]],
+      // UserName: ['', Validators.required],
+      // Password: ['', [Validators.required, Validators.minLength(6)]]
     });
-    // this.userService.getUser().subscribe((user: IUser) => {
-
-    // })
   }
 
   // convenience getter for easy access to form fields
@@ -75,6 +87,8 @@ export class RegistrationComponent implements OnInit {
   validateMinMax(num) {
     return
   }
+
+
   onSubmit() {
     this.submitted = true;
 
@@ -85,101 +99,30 @@ export class RegistrationComponent implements OnInit {
 
     this.loading = true;
 
-    let user = <any>{};
-    user.Adhar = this.registerForm.value.Adhar;
-    user.FirstName = this.registerForm.value.FirstName;
-    user.LastName = this.registerForm.value.LastName;
-    user.Number = this.registerForm.value.Number;
-    user.UserName = this.registerForm.value.UserName;
-    user.Password = this.registerForm.value.Password;
-    //   user.ProfilePicture = this.fileUploads[0];
-    this.userService.addUser(user);
-    //   .subscribe((data: any) => {
-    //       if (data && data.status && data.status == 201) {
-    //           this.loading = false;
-    //           this.router.navigateByUrl('/login');
-    //       }
-    //       else {
-    //           let asd = "error occured";
-    //       }
-    //   });
+
+    let user = <IMotherRegistration>{};
+    var motherReg: IMotherRegistration = this.utilityService.assignObject(user, this.registerForm.value);
+    motherReg.doctorId = this.selectedDoctor[0].id;
+    motherReg.anganwadiId = this.selectedAnganwadi[0].id;
+    this.userService.registerMother(motherReg).subscribe((res:any) =>{
+      if(res){
+        
+      }
+    });
   }
 
-
-
-  //   fileChange(event: any) {
-  //       let reader = new FileReader();
-  //       let filesToUpload: any[] = [];
-  //       var file;
-  //       if (event.target && event.target.files && event.target.files.length == 1) {
-  //           for (let i = 0; i < event.target.files.length; i++) {
-  //               file = event.target.files[i];
-  //               let fileUpload: any = { fileName: file.name, fileType: "", fileValue: [] };
-
-  //               reader = new FileReader();
-  //               reader.onload = (function (file) {
-  //                   return function (e: any) {
-  //                       fileUpload.fileValue = e.target.result.split(',')[1];
-  //                       fileUpload.fileType = e.target.result.split(',')[0];
-  //                   };
-  //               })(file);
-
-  //               if (this.fileUploads.length == 0 && filesToUpload.length == 0) {
-  //                   filesToUpload.push(fileUpload);
-  //               } else {
-  //                   alert("Only single photo allowed");
-  //               }
-
-  //               reader.readAsDataURL(file);
-  //           }
-  //       }
-  //       else {
-  //           alert("Only single photo allowed");
-  //       }
-
-  //       this.fileUploads = [...this.fileUploads, ...filesToUpload];
-  //   }
-
-  //   multileFileChange(event: any) {
-  //       let reader = new FileReader();
-  //       let filesToUpload: any[] = [];
-  //       var file;
-  //       if (event.target && event.target.files && event.target.files.length > 0) {
-  //           for (let i = 0; i < event.target.files.length; i++) {
-  //               file = event.target.files[i];
-  //               let fileUpload: any = { fileName: file.name, fileType: "", fileValue: [] };
-
-  //               reader = new FileReader();
-  //               reader.onload = (function (file) {
-  //                   return function (e:any) {
-  //                       fileUpload.fileValue = e.target.result.split(',')[1];
-  //                       fileUpload.fileType = e.target.result.split(',')[0];
-  //                   };
-  //               })(file);
-
-  //               if (this.fileUploads.filter(file => file.fileName == fileUpload.fileName).length == 0 && filesToUpload.filter(file => file.fileName == fileUpload.fileName).length == 0) {
-  //                   filesToUpload.push(fileUpload);
-  //               }
-
-  //               reader.readAsDataURL(file);
-  //           }
-  //       }
-
-  //       this.fileUploads = [...this.fileUploads, ...filesToUpload];
-  //   }
-
-  onItemSelect(item:any){
+  onItemSelect(item: any) {
     console.log(item);
     console.log(this.selectedAnganwadi);
-}
-OnItemDeSelect(item:any){
+  }
+  OnItemDeSelect(item: any) {
     console.log(item);
     console.log(this.selectedAnganwadi);
-}
-onSelectAll(items: any){
+  }
+  onSelectAll(items: any) {
     console.log(items);
-}
-onDeSelectAll(items: any){
+  }
+  onDeSelectAll(items: any) {
     console.log(items);
-}
+  }
 }
