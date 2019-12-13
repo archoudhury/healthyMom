@@ -21,6 +21,15 @@ namespace HealthyMom.Controllers
             configuration = _configuration;
         }
 
-        
+        public IActionResult SearchWithAadhar(string aadhar)
+        {
+            var m = context.Mother
+                            .Join(context.User,
+                                m => m.UserId,
+                                u => u.Id,
+                                (m, u) => new { Mother = m, User = u }
+                            ).FirstOrDefault(x => x.User.Id == x.Mother.UserId);
+            return Ok(m.Mother);
+        }
     }
 }

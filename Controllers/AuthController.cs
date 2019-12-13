@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using HealthyMom.Models;
+using HealthyMom.ViewModelsAndEnum;
 using HealthyMom.Models.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HealthyMom.Controllers
 {
-
     public class UserLogin
     {
         public string Username { get; set; }
@@ -35,17 +35,17 @@ namespace HealthyMom.Controllers
         {
             try
             {
-
-
                 var user = context.User.FirstOrDefault(x => x.Username == userForLoginDto.Username && userForLoginDto.Password == x.Password);
                 if (user != null)
                 {
+
                     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
                     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
                     var claims = new[] {
                     new Claim(JwtRegisteredClaimNames.Sub,user.Username),
                     new Claim(JwtRegisteredClaimNames.Email,user.Email),
                     new Claim("userId",user.Id.ToString()),
+                    new Claim("userType",((UserType)user.UserType).ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                 };
                     var token = new JwtSecurityToken(
@@ -71,9 +71,5 @@ namespace HealthyMom.Controllers
                 throw;
             }
         }
-    }
-
-    internal class ICOnfiguration
-    {
     }
 }
