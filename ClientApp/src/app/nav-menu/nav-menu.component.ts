@@ -11,7 +11,7 @@ import { SubSink } from 'subsink';
 })
 export class NavMenuComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
-  public userRole: number = 2;
+  public userRole: number = 0;
   constructor(private userService: UserService) {
   }
   ngOnInit(): void {

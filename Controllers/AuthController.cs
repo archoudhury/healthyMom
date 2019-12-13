@@ -33,34 +33,43 @@ namespace HealthyMom.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody]UserLogin userForLoginDto)
         {
-            var user = context.User.FirstOrDefault(x => x.Username == userForLoginDto.Username && userForLoginDto.Password == x.Password);
-            if (user != null)
+            try
             {
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
-                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-                var claims = new[] {
+
+
+                var user = context.User.FirstOrDefault(x => x.Username == userForLoginDto.Username && userForLoginDto.Password == x.Password);
+                if (user != null)
+                {
+                    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+                    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+                    var claims = new[] {
                     new Claim(JwtRegisteredClaimNames.Sub,user.Username),
                     new Claim(JwtRegisteredClaimNames.Email,user.Email),
                     new Claim("userId",user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                 };
-                var token = new JwtSecurityToken(
-                   issuer: configuration["Jwt:Issuer"],
-                   audience: configuration["Jwt:Issuer"],
-                   claims: claims, expires: DateTime.Now.AddHours(1),
-                   signingCredentials: credentials
-                    );
+                    var token = new JwtSecurityToken(
+                       issuer: configuration["Jwt:Issuer"],
+                       audience: configuration["Jwt:Issuer"],
+                       claims: claims, expires: DateTime.Now.AddHours(1),
+                       signingCredentials: credentials
+                        );
 
-                var UserDetail = new UserDetail()
-                {
-                    Id = user.Id,
-                    UserName = user.Username,
-                    Role = user.UserType,
-                    Token = new JwtSecurityTokenHandler().WriteToken(token)
-                };
-                return Ok(UserDetail);
+                    var UserDetail = new UserDetail()
+                    {
+                        Id = user.Id,
+                        UserName = user.Username,
+                        Role = user.UserType,
+                        Token = new JwtSecurityTokenHandler().WriteToken(token)
+                    };
+                    return Ok(UserDetail);
+                }
+                return BadRequest("Invalid Crentials");
             }
-            return BadRequest("Invalid Crentials");
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
     }
 

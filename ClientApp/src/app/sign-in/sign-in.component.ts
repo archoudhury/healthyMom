@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
-
+import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { SubSink } from 'subsink';
 @Component({
     selector: 'app-sign-in',
     templateUrl: './sign-in.component.html',
@@ -14,7 +17,7 @@ export class SignInComponent implements OnInit {
     loading = false;
     errorOccured: boolean = false;
     submitted = false;
-
+    private subs = new SubSink();
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
@@ -26,11 +29,21 @@ export class SignInComponent implements OnInit {
             UserName: ['', Validators.required],
             Password: ['', [Validators.required, Validators.minLength(5)]]
         });
+
+        this.subs.sink = this.userService.getErrorMessage().subscribe((error: any) => {
+            if (error != null && error.error != '') {
+                this.errorOccured = true;
+                this.loading = false;
+            }
+            console.log(error);
+        })
     }
 
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
-
+    ngOnDestroy() {
+        this.subs.unsubscribe();
+    }
     onSubmit() {
         this.submitted = true;
 
@@ -42,16 +55,18 @@ export class SignInComponent implements OnInit {
 
         this.loading = true;
         this.userService.checkUser(this.loginForm.value.UserName, this.loginForm.value.Password).subscribe((result: any) => {
-            console.log(result)
-        })
-        if (true) {
-            this.loading = false;
-            this.errorOccured = false;
-            // this.router.navigate(['/dashboard']);
-        } else {
-            this.loading = false;
-            this.errorOccured = true;
-        }
+            console.log(result);
+            this.router.navigate(['/']);
+        },
+            catchError(this.errorHandler));
+        // if (true) {
+        //     this.loading = false;
+        //     this.errorOccured = false;
+        //     // this.router.navigate(['/dashboard']);
+        // } else {
+        //     this.loading = false;
+        //     this.errorOccured = true;
+        // }
 
         // this.userService.loginUser(this.loginForm.value).subscribe((data: any) => {
         //     localStorage.setItem('userToken', data.tokenString);
@@ -64,5 +79,9 @@ export class SignInComponent implements OnInit {
         // }, (error) => {
         //     console.log(error);
         //     });
+    }
+
+    errorHandler(error: HttpErrorResponse) {
+        return Observable.throw(error.message || "server error.");
     }
 }

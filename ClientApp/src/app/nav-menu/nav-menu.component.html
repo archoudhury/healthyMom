@@ -9,51 +9,60 @@
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]="{ show: isExpanded }">
         <ul [ngSwitch]="userRole">
-          <li *ngSwitchCase="1">
+          <li *ngSwitchCase="0">
             <ul class="navbar-nav flex-grow">
-              <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
+              <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
               </li>
-              <li class="nav-item" [routerLinkActive]="['link-active']">
+              <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
+              </li>
+            </ul>
+          </li>
+          <li *ngSwitchCase="1">
+            <ul class="navbar-nav flex-grow">
+              <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+              </li>
+              <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link text-dark" [routerLink]="['/dashboard']">Dashboard</a>
               </li>
-              <li class="nav-item" [routerLinkActive]="['link-active']">
-                <a class="nav-link text-dark" [routerLink]="['/register']">Register</a>
+              <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link text-dark" [routerLink]="['/register']">Register a MOM</a>
               </li>
-              <li class="nav-item" [routerLinkActive]="['link-active']">
+              <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
               </li>
             </ul>
           </li>
           <li *ngSwitchCase="2">
             <ul class="navbar-nav flex-grow">
-              <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
+              <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
               </li>
 
-              <li class="nav-item" [routerLinkActive]="['link-active']">
+              <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
               </li>
             </ul>
           </li>
           <li *ngSwitchCase="3">
             <ul class="navbar-nav flex-grow">
-              <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
+              <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
               </li>
 
-              <li class="nav-item" [routerLinkActive]="['link-active']">
+              <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
               </li>
             </ul>
           </li>
           <li *ngSwitchCase="4">
             <ul class="navbar-nav flex-grow">
-              <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
+              <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
               </li>
-
-              <li class="nav-item" [routerLinkActive]="['link-active']">
+              <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
               </li>
             </ul>
