@@ -19,8 +19,9 @@ namespace HealthyMom.Models.Context
         public virtual DbSet<Anganwadi> Anganwadi { get; set; }
         public virtual DbSet<Mother> Mother { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Appointment> Appointment { get; set; }
 
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -89,6 +90,27 @@ namespace HealthyMom.Models.Context
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Appointment>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.Type).IsRequired();
+
+                entity.Property(e => e.Date).IsRequired();
+
+                entity.Property(e => e.IsCompleted).HasDefaultValue(false);
+
+                entity.Property(e => e.MotherId).IsRequired();
+
+                entity.Property(e => e.ApproverId).IsRequired();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");               
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
             OnModelCreatingPartial(modelBuilder);
