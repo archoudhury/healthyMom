@@ -12,7 +12,7 @@ namespace HealthyMom.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AppointmentController : MyControllerBase
+    public class AppointmentController : ControllerBase
     {
         private MotherContext context;
         private IConfiguration configuration;
@@ -26,7 +26,7 @@ namespace HealthyMom.Controllers
         public IActionResult Get()
         {
 
-            return Ok(context.Appointment.Where(u => u.Type == (short)CurrentUser.UserType).ToList());
+            return Ok(context.Appointment.Where(u => u.Type == short.Parse(GetClaimByName("userType"))).ToList());
         }
         [HttpGet]
         [Route("Today")]
@@ -34,7 +34,7 @@ namespace HealthyMom.Controllers
         {
             return Ok(
                 context.Appointment.Where(u =>
-                u.Type == (short)CurrentUser.UserType &&
+                u.Type == short.Parse(GetClaimByName("userType")) &&
                 u.Date.Date == DateTime.Now.Date).ToList()
             );
         }
@@ -75,6 +75,12 @@ namespace HealthyMom.Controllers
             appointment.IsOtpVerified = true;
             context.SaveChanges();
             return Ok("OTP verified");
+        }
+
+        private string GetClaimByName(string name)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            return identity.Claims.FirstOrDefault(x => x.Type == name).Value;
         }
     }
 }

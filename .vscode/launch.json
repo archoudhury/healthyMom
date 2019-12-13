@@ -13,6 +13,7 @@
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
+<<<<<<< HEAD
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
                 "enabled": true,
@@ -27,6 +28,11 @@
                 "linux": {
                     "command": "xdg-open"
                 }
+=======
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+>>>>>>> origin/master
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HealthyMom.Models.Context;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,14 @@ namespace HealthyMom.Controllers
             configuration = _configuration;
         }
 
+        private string GetClaimByName(string name)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            return identity.Claims.FirstOrDefault(x => x.Type == name).Value;
+        }
+
+        [Route("SearchWithAadhar")]
+        [HttpGet]
         public IActionResult SearchWithAadhar(string aadhar)
         {
             var m = context.Mother

@@ -9,6 +9,7 @@ namespace HealthyMom.ViewModelsAndEnum
         public string Aadhar { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
+        public string Address { get; set; }
         public string Zip { get; set; }
         public string DoctorVisitDayOfMonth { get; set; }
         public string AnganwadiVisitDayOfWeek { get; set; }
