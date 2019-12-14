@@ -30,6 +30,13 @@ namespace HealthyMom.Controllers
             context = _context;
             configuration = _configuration;
         }
+
+        public IActionResult CheckToken()
+        {
+            var userInfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
+            
+            return Ok();
+        }
         [HttpPost("login")]
         public IActionResult Login([FromBody]UserLogin userForLoginDto)
         {

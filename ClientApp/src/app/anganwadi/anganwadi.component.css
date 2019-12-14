@@ -1,7 +1,12 @@
 /* @import '@swimlane/ngx-datatable/index.css';
 @import '@swimlane/ngx-datatable/themes/material.css';
 @import '@swimlane/ngx-datatable/assets/icons.css'; */
-
+td{
+    padding: 15px;
+}
+.modal-dialog{
+    max-width: 95%
+}
 .popUp {
     top: 50%;
     left: 50%;
@@ -15,7 +20,7 @@
     position: fixed;
     background: #fff;
     z-index: 100015;
-    width: 40%;
+    width: 60%;
 }
 
 .divOverlay {

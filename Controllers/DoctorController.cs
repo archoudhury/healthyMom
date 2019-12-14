@@ -33,7 +33,7 @@ namespace HealthyMom.Controllers
         [Route("GetTodaysAppointments")]
         public IActionResult GetTodaysAppointments()
         {
-            var appointment = context.Appointment.ToList();
+            var appointment = context.Appointment.Where(a => a.Date.Date == DateTime.Now.Date && a.Type == 2).ToList();
             return Ok(appointment);
         }
 

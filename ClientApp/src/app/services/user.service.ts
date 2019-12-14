@@ -6,14 +6,19 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/comm
 import { tap, map, catchError } from 'rxjs/operators';
 import { UserDetail } from "../models/userDetail";
 import { IMotherRegistration } from "../models/IMotherRegistration";
+import { IMother } from "../models/IMother";
 @Injectable()
 export class UserService {
+
 
     readonly login = 'api/Auth/login';
     readonly registorMom = 'api/Doctor/RegisterMother';
     readonly getDoctorAppointments = 'api/doctor/GetTodaysAppointments'
-    readonly getAnganwadiAppointments = 'api/anganwadi'
-;
+    readonly getAnganwadiAppointments = 'api/anganwadi/GetTodaysAppointments';
+    readonly getMotherDetails = 'api/mother';
+    readonly getMotherAppointment = 'api/mother/GetAppointment';
+    readonly generateOTPURL = 'api/Appointment/GenerateOtp';
+    readonly ValidateOtpURL = 'api/Appointment/ValidateOtp';
 
     constructor(private httpClient: HttpClient) {
         if (this.userList.length == 0) {
@@ -28,22 +33,22 @@ export class UserService {
     private userList: IUser[] = [];
 
 
-    getDoctorAppointment(){
+    getDoctorAppointment() {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
         const url = `${this.getDoctorAppointments}`;
         return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
-          map(this.extractData2),
-          tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
-          catchError(this.handleError));
+            map(this.extractData2),
+            tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
+            catchError(this.handleError));
     }
 
-    getAnganwadiAppointment(){
+    getAnganwadiAppointment() {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
         const url = `${this.getAnganwadiAppointments}`;
         return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
-          map(this.extractData2),
-          tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
-          catchError(this.handleError));
+            map(this.extractData2),
+            tap(data => console.log('Get anganwadi appointments: ' + JSON.stringify(data))),
+            catchError(this.handleError));
     }
 
 
@@ -67,6 +72,42 @@ export class UserService {
     getsubject(): Observable<UserDetail> {
         return this.userSubject;
     }
+    getMotherAppointments(): Observable<any> {
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+        const url = `${this.getMotherAppointment}`;
+
+        return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
+            map((p) => this.extractData2(p)),
+            tap(data => {
+                console.log(data)
+            }),
+            catchError(error => this.handleError(error, self))
+        );
+    }
+
+    generateOTP(id): Observable<string> {
+
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+        const url = `${this.generateOTPURL}/${id}`;
+        return this.httpClient.post(url, { headers: headers, observe: "response" }).pipe(
+            tap(data => console.log('GetDescription: ' + JSON.stringify(data))),
+            catchError(this.handleError));
+    }
+    ValidateOtp(id: number, otpNumber: number): Observable<string> {
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+        const url = `${this.ValidateOtpURL}`;
+        var obj = <OtpClass>{};
+        obj.id = id;
+        obj.otp = otpNumber;
+        return this.httpClient.post(url, obj, { headers: headers, observe: "response" }).pipe(
+            tap(data => console.log('GetDescription: ' + JSON.stringify(data))),
+            catchError(this.handleError));
+    }
+
+    loggedOut() {
+        localStorage.clear();
+        this.userSubject.next(null);
+    }
 
     getErrorMessage(): Observable<any> {
         return this.errorMessage;
@@ -80,6 +121,20 @@ export class UserService {
         return user;
     }
 
+    getMotherById(id: number): Observable<IMother> {
+
+        if (id === 0) {
+            return null;
+        };
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+
+        const url = `${this.getMotherDetails}/${id}`;
+        //return this.http.get(this.baseUrl1 + url)
+        return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
+            map(this.extractData2),
+            tap(data => console.log('GetDescription: ' + JSON.stringify(data))),
+            catchError(this.handleError));
+    }
     checkUser(userName: string, password: string): Observable<any> {
         let headersObj = new HttpHeaders({ 'Content-Type': 'application/json' });
         var userLogin = <UserLogin>{}
@@ -113,7 +168,7 @@ export class UserService {
         // instead of just logging it to the console
         self.errorMessage.next(error);
         console.error(error);
-        
+
         return Observable.throw(error || 'Server error');
     }
 }
@@ -121,4 +176,9 @@ export class UserService {
 export interface UserLogin {
     username: string,
     password: string
+}
+
+export interface OtpClass {
+    otp: number;
+    id: number
 }
