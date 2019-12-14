@@ -19,7 +19,6 @@
               </li>
             </ul>
           </li>
-
           <li *ngSwitchCase="1">
             <ul class="navbar-nav flex-grow">
               <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
@@ -72,7 +71,7 @@
                 <a class="nav-link text-dark" [routerLink]="['/PregnencyTips']">Pregnency Tips</a>
               </li>
               <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link text-dark" [routerLink]="['/PregnencyTips']">My Appointments</a>
+                <a class="nav-link text-dark" [routerLink]="['/todo']">My Appointments</a>
               </li>
               <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link text-dark" (click)="onLogout()">Logout</a>

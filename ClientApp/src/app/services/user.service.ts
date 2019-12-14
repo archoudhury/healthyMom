@@ -14,13 +14,11 @@ export class UserService {
     readonly login = 'api/Auth/login';
     readonly registorMom = 'api/Doctor/RegisterMother';
     readonly getDoctorAppointments = 'api/doctor/GetTodaysAppointments'
-    readonly getAnganwadiAppointments = 'api/anganwadi';
+    readonly getAnganwadiAppointments = 'api/anganwadi/GetTodaysAppointments';
     readonly getMotherDetails = 'api/mother';
     readonly getMotherAppointment = 'api/mother/GetAppointment';
     readonly generateOTPURL = 'api/Appointment/GenerateOtp';
-
-    GenerateOtp
-
+    readonly ValidateOtpURL = 'api/Appointment/ValidateOtp';
 
     constructor(private httpClient: HttpClient) {
         if (this.userList.length == 0) {
@@ -49,7 +47,7 @@ export class UserService {
         const url = `${this.getAnganwadiAppointments}`;
         return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
             map(this.extractData2),
-            tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
+            tap(data => console.log('Get anganwadi appointments: ' + JSON.stringify(data))),
             catchError(this.handleError));
     }
 
@@ -95,6 +93,17 @@ export class UserService {
             tap(data => console.log('GetDescription: ' + JSON.stringify(data))),
             catchError(this.handleError));
     }
+    ValidateOtp(id: number, otpNumber: number): Observable<string> {
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+        const url = `${this.ValidateOtpURL}`;
+        var obj = <OtpClass>{};
+        obj.id = id;
+        obj.otp = otpNumber;
+        return this.httpClient.post(url, obj, { headers: headers, observe: "response" }).pipe(
+            tap(data => console.log('GetDescription: ' + JSON.stringify(data))),
+            catchError(this.handleError));
+    }
+
     loggedOut() {
         localStorage.clear();
         this.userSubject.next(null);
@@ -167,4 +176,9 @@ export class UserService {
 export interface UserLogin {
     username: string,
     password: string
+}
+
+export interface OtpClass {
+    otp: number;
+    id: number
 }

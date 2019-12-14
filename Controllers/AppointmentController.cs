@@ -10,6 +10,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace HealthyMom.Controllers
 {
+
+    public class OPTClass{
+        public int otp { get; set; }
+        public int id { get; set; }
+    }
     [Route("api/[controller]")]
     [ApiController]
     public class AppointmentController : ControllerBase
@@ -53,16 +58,16 @@ namespace HealthyMom.Controllers
             var appointment = context.Appointment.FirstOrDefault(x => x.Id == id);
             var otp = new Random().Next(1000, 9999);
             appointment.Otp = otp;
-            appointment.OtpExpiry = new DateTime().AddMinutes(3);
+            appointment.OtpExpiry = DateTime.Now.AddMinutes(3);
             context.SaveChanges();
             return Ok(otp.ToString());
         }
 
         [HttpPost]
-        [Route("ValidateOtp/{id}")]
-        public IActionResult ValidateOtp(long id, [FromBody]int otp)
+        [Route("ValidateOtp")]
+        public IActionResult ValidateOtp([FromBody]OPTClass otp)
         {
-            var appointment = context.Appointment.FirstOrDefault(x => x.Id == id && x.Otp == otp);
+            var appointment = context.Appointment.FirstOrDefault(x => x.Id == otp.id && x.Otp == otp.otp);
             if (appointment == null)
             {
                 return BadRequest("Invalid OTP");
@@ -74,6 +79,7 @@ namespace HealthyMom.Controllers
 
             appointment.Otp = 0;
             appointment.IsOtpVerified = true;
+            appointment.IsCompleted = true;
             context.SaveChanges();
             return Ok("OTP verified");
         }

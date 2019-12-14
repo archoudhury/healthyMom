@@ -39,6 +39,7 @@ export class ToDoComponent implements OnInit {
         { prop: 'details', label: 'Details' },
         { prop: 'type', label: 'Appointment type', pipe: { transform: this.pipeAppointmentType } },
         { prop: 'date', label: 'Date', pipe: { transform: this.datePipe } },
+        { prop: 'isCompleted', label: 'Completed Status' }
     ];
     user: UserDetail;
     mother: IMother;
@@ -60,10 +61,11 @@ export class ToDoComponent implements OnInit {
         return new Date(value).toLocaleString('en-US').split(',')[0];
     }
     pipeAppointmentType(value) {
-        console.log(value);
 
         return EmployeeType[value]
     }
+
+    
     onSelect(selcted: any) {
         this.loading = true;
         this.renderer.removeStyle(this.commentPoUp.nativeElement, "display");

@@ -17,7 +17,11 @@
             <ng-template #nondate>
                 <span *ngIf="col.prop == 'type' ;else nontype">{{ pipeAppointmentType(value)}}</span>
                 <ng-template #nontype>
-                    <span> {{ value }}</span>
+                    <span style="    padding: 5px 20px;color: white;" [ngStyle]="{'background-color': !value ? 'red': 'green' }"
+                        *ngIf="col.prop == 'isCompleted' ;else nonCompleted">{{value ? 'Completed' : 'Pending'}}</span>
+                </ng-template>
+                <ng-template #nonCompleted>
+                    <span>{{ value}}</span>
                 </ng-template>
             </ng-template>
         </ng-template>
@@ -50,7 +54,7 @@
                 </button>
             </div>
             <div class="modal-body">
-               
+
                 <div *ngIf="loading">
                     Loading details please wait....!
                 </div>
@@ -83,11 +87,13 @@
                                 Generating OTP is enabled only for todays date.
                             </span>
                             <span *ngIf="isGeneratedOTP">
-                                Generated OTP is : <strong>{{generatedOTP}}</strong> 
-                            <br>
+                                Generated OTP is :
+                                <strong>{{generatedOTP}}</strong>
+                                <br>
                                 <ng-container [counter]="180" [interval]="1000" (value)="count = $event">
-                                   OTP will expire in : <span> {{ count }} </span> seconds
-                                  </ng-container>
+                                    OTP will expire in :
+                                    <span> {{ count }} </span> seconds
+                                </ng-container>
                             </span>
                         </td>
                     </tr>

@@ -49,5 +49,14 @@ namespace HealthyMom.Controllers
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             return identity.Claims.FirstOrDefault(x => x.Type == name).Value;
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("GetTodaysAppointments")]
+        public IActionResult GetTodaysAppointments()
+        {
+            var appointment = context.Appointment.Where(a => a.Date.Date == DateTime.Now.Date && a.Type == 3).ToList();
+            return Ok(appointment);
+        }
     }
 }
