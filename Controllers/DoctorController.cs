@@ -58,7 +58,7 @@ namespace HealthyMom.Controllers
                 CreatedBy = long.Parse(GetClaimByName("userId")),
                 CreatedDate = DateTime.Now
             };
-
+            context.Mother.Add(mother);
             var user = new User
             {
                 Username = model.Username,
@@ -72,23 +72,9 @@ namespace HealthyMom.Controllers
             };
 
             context.User.Add(user);
+            context.SaveChanges();
 
             var sampleAppointments = context.SampleAppointmentData.OrderBy(x => x.Id).ToList();
-
-            foreach (var item in sampleAppointments.Where(x => x.Type == (short)UserType.Anganwadi))
-            {
-                var appointment = new Appointment
-                {
-                    Name = item.Name,
-                    Details = item.Details,
-                    Type = item.Type,
-                    MotherId = mother.Id,
-                    ApproverId = model.AnganwadiId,
-                    CreatedBy = long.Parse(GetClaimByName("userId")),
-                    CreatedDate = DateTime.Now
-                };
-                context.Appointment.Add(appointment);
-            }
 
             var dateOfAnganwadi = DateTime.Now.Date;
             foreach (var item in sampleAppointments.Where(x => x.Type == (short)UserType.Anganwadi))
@@ -109,7 +95,7 @@ namespace HealthyMom.Controllers
             }
 
             var dateOfDoctor = DateTime.Now.Date;
-            foreach (var item in sampleAppointments.Where(x => x.Type == (short)UserType.Anganwadi))
+            foreach (var item in sampleAppointments.Where(x => x.Type == (short)UserType.Doctor))
             {
                 var appointment = new Appointment
                 {
@@ -130,29 +116,6 @@ namespace HealthyMom.Controllers
 
             return Ok("Created");
         }
-
-        public void CreateAppointments(string doctorDay, string anganwadiDay, int motherid)
-        {
-            List<Appointment> appointment = new List<Appointment>();
-            for (int i = 0; i < 40; i++)
-            {
-                appointment.Add(new Appointment()
-                {
-                    Name = "Hello"
-                });
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-
-            }
-            
-            context.Appointment.AddRange(appointment);
-
-            context.SaveChanges();
-        }
-
-
 
     }
 }
