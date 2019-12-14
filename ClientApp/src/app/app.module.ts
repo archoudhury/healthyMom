@@ -27,6 +27,7 @@ import { AnganwadiComponent } from './anganwadi/anganwadi.component';
 import { NotFoundComponent } from './not-found/notfound.component';
 import { SignUpComponent } from './sign-up/signup.component';
 import { UtilityService } from './services/utility';
+import { PregnencyTipsComponent } from './pregnencytips/pregnencytips.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UtilityService } from './services/utility';
     PersonaldetailComponent,
     AnganwadiComponent,
     NotFoundComponent,
-    SignUpComponent
+    SignUpComponent,
+    PregnencyTipsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -59,11 +61,12 @@ import { UtilityService } from './services/utility';
       { path: 'dashboard',canActivate:[AuthDoctorGuard], component: DashboardComponent },
       { path: 'register', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
       { path: 'history', canActivate:[AuthMotherGuard], component: RegistrationComponent },
-      { path: 'todo', canActivate:[AuthMotherGuard], component: RegistrationComponent },
-      { path: 'detail', canActivate:[AuthMotherGuard], component: RegistrationComponent },
+      { path: 'todo',  canActivate:[AuthMotherGuard], component: RegistrationComponent },
+      { path: 'detail',canActivate:[AuthMotherGuard], component: PersonaldetailComponent },
       { path: 'anganwadi/appointment', canActivate:[AuthAnganwadiGuard], component: AnganwadiComponent },
       { path: 'update', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
       { path: 'not-found', component: NotFoundComponent },
+      {path: 'PregnencyTips', canActivate:[AuthMotherGuard], component: PregnencyTipsComponent},
       { path: '**', redirectTo: 'not-found' }
     ])
   ],

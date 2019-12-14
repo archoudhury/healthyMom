@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { UserDetail } from '../models/userDetail';
 
 import { SubSink } from 'subsink';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-menu',
@@ -12,7 +13,7 @@ import { SubSink } from 'subsink';
 export class NavMenuComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   public userRole: number = 0;
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
   }
   ngOnInit(): void {
     this.subs.sink = this.userService.getsubject().subscribe(((data: UserDetail) => {
@@ -20,6 +21,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
         this.userRole = data.role;
       }
       else {
+        this.userRole = 0;
       }
     }))
   }
@@ -36,5 +38,10 @@ export class NavMenuComponent implements OnInit, OnDestroy {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  onLogout(){
+    this.userService.loggedOut();
+    this.router.navigate(['/login'])
   }
 }

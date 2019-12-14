@@ -1,15 +1,96 @@
 <h2>Personal details</h2>
 <hr>
 <div *ngIf="detail != undefined">
-    <div><Strong>Mother Name : </Strong><div [innerHTML]="detail.motherName"></div></div>
-    <div><Strong>Husband name : </Strong><div [innerHTML]="detail.husbandName"></div></div>
-    <div><Strong>Address name : </Strong><div [innerHTML]="detail.address"></div></div>
+    <table>
+        <tr>
+            <td>
+                <Strong>Mother Name : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.name"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Husband name : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.husbandName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Husband name : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.address"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Address name : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.address"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Fertility Date : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.fertilityDate"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Expected Delivery Date : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.expectedDeliveryDate"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Doctor appointed: </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.doctor"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Anganwadi appointed : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.anganwadi"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Other Complications : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.otherComplications"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Number Of Babies : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.numberOfBabies"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <Strong>Number Of Pregnency : </Strong>
+            </td>
+            <td>
+                <span [innerHTML]="detail.numberOfPregnency"></span>
+            </td>
+        </tr>
 
-    <div><Strong>Fertility Date : </Strong><div [innerHTML]="detail.fertilityDate"></div></div>
-    <div><Strong>Expected Delivery Date : </Strong><div [innerHTML]="detail.expectedDeliveryDate"></div></div>
-    <div><Strong>Doctor appointed: </Strong><div [innerHTML]="detail.doctor"></div></div>
-    <div><Strong>Anganwadi appointed : </Strong><div [innerHTML]="detail.anganwadi"></div></div>
-    <div><Strong>otherComplications : </Strong><div [innerHTML]="detail.otherComplications"></div></div>
-    <div><Strong>Number Of Babies : </Strong><div [innerHTML]="detail.numberOfBabies"></div></div>
-    <div><Strong>Number Of Pregnency : </Strong><div [innerHTML]="detail.numberOfPregnency"></div></div>
+    </table>
+
 </div>

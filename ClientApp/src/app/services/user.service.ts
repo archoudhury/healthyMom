@@ -6,15 +6,15 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/comm
 import { tap, map, catchError } from 'rxjs/operators';
 import { UserDetail } from "../models/userDetail";
 import { IMotherRegistration } from "../models/IMotherRegistration";
+import { IMother } from "../models/IMother";
 @Injectable()
 export class UserService {
 
     readonly login = 'api/Auth/login';
     readonly registorMom = 'api/Doctor/RegisterMother';
     readonly getDoctorAppointments = 'api/doctor/GetTodaysAppointments'
-    readonly getAnganwadiAppointments = 'api/anganwadi'
-;
-
+    readonly getAnganwadiAppointments = 'api/anganwadi';
+    readonly getMotherDetails = 'api/mother'
     constructor(private httpClient: HttpClient) {
         if (this.userList.length == 0) {
             this.userList.push(this.getAdmin());
@@ -28,22 +28,22 @@ export class UserService {
     private userList: IUser[] = [];
 
 
-    getDoctorAppointment(){
+    getDoctorAppointment() {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
         const url = `${this.getDoctorAppointments}`;
         return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
-          map(this.extractData2),
-          tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
-          catchError(this.handleError));
+            map(this.extractData2),
+            tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
+            catchError(this.handleError));
     }
 
-    getAnganwadiAppointment(){
+    getAnganwadiAppointment() {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
         const url = `${this.getAnganwadiAppointments}`;
         return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
-          map(this.extractData2),
-          tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
-          catchError(this.handleError));
+            map(this.extractData2),
+            tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
+            catchError(this.handleError));
     }
 
 
@@ -68,6 +68,11 @@ export class UserService {
         return this.userSubject;
     }
 
+    loggedOut() {
+        localStorage.clear();
+        this.userSubject.next(null);
+    }
+
     getErrorMessage(): Observable<any> {
         return this.errorMessage;
     }
@@ -80,6 +85,20 @@ export class UserService {
         return user;
     }
 
+    getMotherById(id: number): Observable<IMother> {
+
+        if (id === 0) {
+            return null;
+        };
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+
+        const url = `${this.getMotherDetails}/${id}`;
+        //return this.http.get(this.baseUrl1 + url)
+        return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
+            map(this.extractData2),
+            tap(data => console.log('GetDescription: ' + JSON.stringify(data))),
+            catchError(this.handleError));
+    }
     checkUser(userName: string, password: string): Observable<any> {
         let headersObj = new HttpHeaders({ 'Content-Type': 'application/json' });
         var userLogin = <UserLogin>{}
@@ -113,7 +132,7 @@ export class UserService {
         // instead of just logging it to the console
         self.errorMessage.next(error);
         console.error(error);
-        
+
         return Observable.throw(error || 'Server error');
     }
 }

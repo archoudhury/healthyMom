@@ -28,6 +28,20 @@ namespace HealthyMom.Controllers
             return identity.Claims.FirstOrDefault(x => x.Type == name).Value;
         }
 
+
+        [HttpGet("{id}", Name = "GetMotherById")]
+        [HttpHead]
+        public IActionResult GetMotherById(int id)
+        {
+            var m = context.Mother
+                            .Join(context.User,
+                                m => m.UserId,
+                                u => u.Id,
+                                (m, u) => new { Mother = m, User = u }
+                            ).FirstOrDefault(x => x.User.Id == x.Mother.UserId && x.Mother.UserId == id);
+            return Ok(m.Mother);
+        }
+
         [Route("SearchWithAadhar")]
         [HttpGet]
         public IActionResult SearchWithAadhar(string aadhar)

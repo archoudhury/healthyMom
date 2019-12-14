@@ -18,6 +18,7 @@ export class AuthAdminGuard implements CanActivate {
             }
             else {
                 this.isAuthenticated = false;
+                this.router.navigate(['/login']);
                 return false;
             }
         })).unsubscribe();
