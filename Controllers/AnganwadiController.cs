@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using HealthyMom.Models;
 using HealthyMom.Models.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,7 @@ namespace HealthyMom.Controllers
             context = _context;
             configuration = _configuration;
         }
+        [Authorize]
         [HttpGet]
         public IActionResult Get()
         {
