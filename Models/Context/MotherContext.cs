@@ -20,7 +20,7 @@ namespace HealthyMom.Models.Context
         public virtual DbSet<Mother> Mother { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Appointment> Appointment { get; set; }
-
+        public virtual DbSet<SampleAppointmentData> SampleAppointmentData { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -108,7 +108,7 @@ namespace HealthyMom.Models.Context
 
                 entity.Property(e => e.ApproverId).IsRequired();
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");               
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });

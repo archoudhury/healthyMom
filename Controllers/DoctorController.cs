@@ -58,9 +58,64 @@ namespace HealthyMom.Controllers
                 CreatedBy = long.Parse(GetClaimByName("userId")),
                 CreatedDate = DateTime.Now
             };
-            context.Mother.Add(mother);
+
             context.User.Add(user);
+
+            var sampleAppointments = context.SampleAppointmentData.OrderBy(x => x.Id).ToList();
+
+            foreach (var item in sampleAppointments.Where(x => x.Type == (short)UserType.Anganwadi))
+            {
+                var appointment = new Appointment
+                {
+                    Name = item.Name,
+                    Details = item.Details,
+                    Type = item.Type,
+                    MotherId = mother.Id,
+                    ApproverId = model.AnganwadiId,
+                    CreatedBy = long.Parse(GetClaimByName("userId")),
+                    CreatedDate = DateTime.Now
+                };
+                context.Appointment.Add(appointment);
+            }
+
+            var dateOfAnganwadi = DateTime.Now.Date;
+            foreach (var item in sampleAppointments.Where(x => x.Type == (short)UserType.Anganwadi))
+            {
+                var appointment = new Appointment
+                {
+                    Name = item.Name,
+                    Details = item.Details,
+                    Type = item.Type,
+                    MotherId = mother.Id,
+                    ApproverId = model.AnganwadiId,
+                    Date = dateOfAnganwadi,
+                    CreatedBy = long.Parse(GetClaimByName("userId")),
+                    CreatedDate = DateTime.Now
+                };
+                context.Appointment.Add(appointment);
+                dateOfAnganwadi = dateOfAnganwadi.AddDays(7);
+            }
+
+            var dateOfDoctor = DateTime.Now.Date;
+            foreach (var item in sampleAppointments.Where(x => x.Type == (short)UserType.Anganwadi))
+            {
+                var appointment = new Appointment
+                {
+                    Name = item.Name,
+                    Details = item.Details,
+                    Type = item.Type,
+                    MotherId = mother.Id,
+                    ApproverId = long.Parse(GetClaimByName("userId")),
+                    Date = dateOfDoctor,
+                    CreatedBy = long.Parse(GetClaimByName("userId")),
+                    CreatedDate = DateTime.Now
+                };
+                context.Appointment.Add(appointment);
+                dateOfDoctor = dateOfDoctor.AddMonths(1);
+            }
+
             context.SaveChanges();
+
             return Ok("Created");
         }
 
