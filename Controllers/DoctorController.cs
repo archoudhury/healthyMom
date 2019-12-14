@@ -42,6 +42,21 @@ namespace HealthyMom.Controllers
         [Route("RegisterMother")]
         public IActionResult RegisterMother(MotherRegistration model)
         {
+            var user = new User
+            {
+                Username = model.Username,
+                Password = model.Password,
+                Aadhar = model.Aadhar,
+                Mobile = model.Mobile,
+                Email = model.Email,
+                UserType = (short)UserType.Mother,
+                CreatedBy = long.Parse(GetClaimByName("userId")),
+                CreatedDate = DateTime.Now
+            };
+            context.SaveChanges();
+            context.User.Add(user);
+            context.SaveChanges();
+
             var mother = new Mother
             {
                 Name = model.MotherName,
@@ -56,22 +71,12 @@ namespace HealthyMom.Controllers
                 Address = model.Address,
                 Zip = model.Zip,
                 CreatedBy = long.Parse(GetClaimByName("userId")),
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                UserId = user.Id
             };
             context.Mother.Add(mother);
-            var user = new User
-            {
-                Username = model.Username,
-                Password = model.Password,
-                Aadhar = model.Aadhar,
-                Mobile = model.Mobile,
-                Email = model.Email,
-                UserType = (short)UserType.Mother,
-                CreatedBy = long.Parse(GetClaimByName("userId")),
-                CreatedDate = DateTime.Now
-            };
 
-            context.User.Add(user);
+
             context.SaveChanges();
 
             var sampleAppointments = context.SampleAppointmentData.OrderBy(x => x.Id).ToList();
