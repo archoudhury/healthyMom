@@ -53,8 +53,9 @@ namespace HealthyMom.Controllers
             var appointment = context.Appointment.FirstOrDefault(x => x.Id == id);
             var otp = new Random().Next(1000, 9999);
             appointment.Otp = otp;
+            appointment.OtpExpiry = new DateTime().AddMinutes(3);
             context.SaveChanges();
-            return Ok(otp);
+            return Ok(otp.ToString());
         }
 
         [HttpPost]

@@ -10,11 +10,18 @@ import { IMother } from "../models/IMother";
 @Injectable()
 export class UserService {
 
+
     readonly login = 'api/Auth/login';
     readonly registorMom = 'api/Doctor/RegisterMother';
     readonly getDoctorAppointments = 'api/doctor/GetTodaysAppointments'
     readonly getAnganwadiAppointments = 'api/anganwadi';
-    readonly getMotherDetails = 'api/mother'
+    readonly getMotherDetails = 'api/mother';
+    readonly getMotherAppointment = 'api/mother/GetAppointment';
+    readonly generateOTPURL = 'api/Appointment/GenerateOtp';
+
+    GenerateOtp
+
+
     constructor(private httpClient: HttpClient) {
         if (this.userList.length == 0) {
             this.userList.push(this.getAdmin());
@@ -67,7 +74,27 @@ export class UserService {
     getsubject(): Observable<UserDetail> {
         return this.userSubject;
     }
+    getMotherAppointments(): Observable<any> {
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+        const url = `${this.getMotherAppointment}`;
 
+        return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
+            map((p) => this.extractData2(p)),
+            tap(data => {
+                console.log(data)
+            }),
+            catchError(error => this.handleError(error, self))
+        );
+    }
+
+    generateOTP(id): Observable<string> {
+
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+        const url = `${this.generateOTPURL}/${id}`;
+        return this.httpClient.post(url, { headers: headers, observe: "response" }).pipe(
+            tap(data => console.log('GetDescription: ' + JSON.stringify(data))),
+            catchError(this.handleError));
+    }
     loggedOut() {
         localStorage.clear();
         this.userSubject.next(null);

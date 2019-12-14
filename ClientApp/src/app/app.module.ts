@@ -5,7 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-
+import { NgOtpInputModule } from  'ng-otp-input';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -28,6 +28,8 @@ import { NotFoundComponent } from './not-found/notfound.component';
 import { SignUpComponent } from './sign-up/signup.component';
 import { UtilityService } from './services/utility';
 import { PregnencyTipsComponent } from './pregnencytips/pregnencytips.component';
+import { AppintmentType } from './shared/pipes/AppintmentType.pipe';
+import { CounterDirective } from './shared/directives/countdown.directive';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { PregnencyTipsComponent } from './pregnencytips/pregnencytips.component'
     AnganwadiComponent,
     NotFoundComponent,
     SignUpComponent,
-    PregnencyTipsComponent
+    PregnencyTipsComponent,
+    AppintmentType,
+    CounterDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -54,6 +58,7 @@ import { PregnencyTipsComponent } from './pregnencytips/pregnencytips.component'
     ReactiveFormsModule,
     AngularMultiSelectModule,
     NgxDatatableModule,
+    NgOtpInputModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: SignInComponent },
@@ -61,7 +66,7 @@ import { PregnencyTipsComponent } from './pregnencytips/pregnencytips.component'
       { path: 'dashboard',canActivate:[AuthDoctorGuard], component: DashboardComponent },
       { path: 'register', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
       { path: 'history', canActivate:[AuthMotherGuard], component: RegistrationComponent },
-      { path: 'todo',  canActivate:[AuthMotherGuard], component: RegistrationComponent },
+      { path: 'todo',  canActivate:[AuthMotherGuard], component: ToDoComponent },
       { path: 'detail',canActivate:[AuthMotherGuard], component: PersonaldetailComponent },
       { path: 'anganwadi/appointment', canActivate:[AuthAnganwadiGuard], component: AnganwadiComponent },
       { path: 'update', canActivate:[AuthDoctorGuard], component: RegistrationComponent },

@@ -52,7 +52,9 @@
               <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
               </li>
-
+              <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link text-dark" [routerLink]="['/anganwadi/appointment']">Dashboard</a>
+              </li>
               <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link text-dark" (click)="onLogout()">Logout</a>
               </li>
@@ -68,6 +70,9 @@
               </li>
               <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link text-dark" [routerLink]="['/PregnencyTips']">Pregnency Tips</a>
+              </li>
+              <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link text-dark" [routerLink]="['/PregnencyTips']">My Appointments</a>
               </li>
               <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link text-dark" (click)="onLogout()">Logout</a>

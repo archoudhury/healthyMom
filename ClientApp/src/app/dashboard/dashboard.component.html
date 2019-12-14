@@ -4,11 +4,12 @@
 <ngx-datatable class="material" [rows]="rows" [columnMode]="ColumnMode.force" [columns]="columns" [headerHeight]="50" [footerHeight]="50"
     rowHeight="auto" [limit]="5" [selected]="selected" [selectionType]="SelectionType.single" (activate)="onActivate($event)"
     (select)="onSelect($event)">
-    <ngx-datatable-column *ngFor="let col of columns" [flexGrow]="col.size || 1" [name]="col.prop" [sortable]="true" [canAutoResize]="true" [draggable]="true" [resizeable]="true">
-            <ng-template ngx-datatable-header-template let-sort="sortFn">
-                <span (click)="sort()">{{ col.label }}</span>
-            </ng-template>
-        </ngx-datatable-column>
+    <ngx-datatable-column *ngFor="let col of columns" [flexGrow]="col.size || 1" [name]="col.prop" [sortable]="true" [canAutoResize]="true"
+        [draggable]="true" [resizeable]="true">
+        <ng-template ngx-datatable-header-template let-sort="sortFn">
+            <span (click)="sort()">{{ col.label }}</span>
+        </ng-template>
+    </ngx-datatable-column>
 </ngx-datatable>
 
 
@@ -25,17 +26,45 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Mother Details</h5>
+                <h5 class="modal-title">Appointment Details</h5>
                 <button (click)="closePopUp()" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <table *ngIf="mother != undefined && mother != null">
+                    <tr>
+                        <td>
+                            <strong>Mother name: </strong>
+                        </td>
+                        <td>{{mother.name}} </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Appoint Name: </strong>
+                        </td>
+                        <td> {{selected[0].name}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Details :</strong>
+                        </td>
+                        <td> {{selected[0].details}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong> Enter OTP:</strong> </td>
+                        <td>
+                            <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{length:5}"></ng-otp-input>
+                        </td>
+                    </tr>
+                </table>
+
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" (click)="closePopUp()" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

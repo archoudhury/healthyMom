@@ -3,6 +3,7 @@ import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 import { UserService } from '../services/user.service';
 import { IAppointment } from '../models/IAppoinment';
 import { SubSink } from 'subsink';
+import { IMother } from '../models/IMother';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,39 +11,43 @@ import { SubSink } from 'subsink';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+  public mother: IMother;
   private subs = new SubSink();
   constructor(private renderer: Renderer2, private service: UserService) { }
   @ViewChild('commentPoUp', { static: false }) public commentPoUp: ElementRef;
 
-  rows = [
-    { name: 'Austin', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
-    { name: 'Dany', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
-    { name: 'Molly', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
-    { name: 'Austin', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
-    { name: 'Dany', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
-    { name: 'Molly', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
-    { name: 'Austin', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
-    { name: 'Dany', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
-    { name: 'Molly', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
+  rows: IAppointment[] = [
+    // { name: 'Austin', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
+    // { name: 'Dany', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
+    // { name: 'Molly', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
+    // { name: 'Austin', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
+    // { name: 'Dany', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
+    // { name: 'Molly', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
+    // { name: 'Austin', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
+    // { name: 'Dany', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
+    // { name: 'Molly', aadhar: this.generateNumber(16), mobile: this.generateNumber(10), anganwadiToReport: "XYZ" },
   ];
   columns = [
-    { prop: 'name', label: 'Mother Name' },
-    { prop: 'aadhar', label: 'Aadhar number' },
-    { prop: 'mobile', label: 'Mobile number' },
-    { prop: 'anganwadiToReport', label: 'Anganwadi To Report' },
+    { prop: 'name', label: 'Appointment  Name' },
+    { prop: 'details', label: 'Details' },
+    { prop: 'date', label: 'Date' },
   ];
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
-  selected = [];
+  selected: IAppointment[] = [];
   ngOnInit() {
-    this.subs.sink =  this.service.getDoctorAppointment().subscribe((res: IAppointment) =>{
-
+    this.subs.sink = this.service.getDoctorAppointment().subscribe((res: IAppointment[]) => {
+      this.rows = res;
+      console.log(res);
     })
   }
 
   onSelect(selcted: any) {
-
+    this.service.getMotherById(selcted["selected"][0].motherId).subscribe((result: IMother) => {
+      if (result) {
+        this.mother = result;
+      }
+    })
     this.renderer.removeStyle(this.commentPoUp.nativeElement, "display");
     this.renderer.addClass(this.commentPoUp.nativeElement, "popUp");
   }
@@ -54,13 +59,10 @@ export class DashboardComponent implements OnInit {
 
   generateNumber(length: number) {
     return Math.floor(Math.pow(10, length - 1) + Math.random() * 9 * Math.pow(10, length - 1));
-
-    // return Math.floor(100000000 + Math.random() * 9000000000000000);
   }
   onActivate(event) {
-    console.log('Activate Event', event);
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subs.unsubscribe();
   }
 }
