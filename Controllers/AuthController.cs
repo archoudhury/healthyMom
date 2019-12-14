@@ -34,11 +34,7 @@ namespace HealthyMom.Controllers
         public IActionResult CheckToken()
         {
             var userInfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
-            var hc = new HttpClient();
-            hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
-            var response = hc.GetAsync(userInfoUrl).Result;
-            dynamic userInfo = response.Content.ReadAsAsync().Result;
-            return userInfo;
+            
             return Ok();
         }
         [HttpPost("login")]
