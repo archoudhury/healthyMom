@@ -5,6 +5,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using HealthyMom.Models;
+using HealthyMom.ViewModelsAndEnum;
 using HealthyMom.Models.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +14,13 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HealthyMom.Controllers
 {
+    public class UserLogin
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private MotherContext context;
@@ -23,31 +30,46 @@ namespace HealthyMom.Controllers
             context = _context;
             configuration = _configuration;
         }
-        [Route("login")]
-        [HttpPost]
-        public IActionResult Login(string username, string password)
+        [HttpPost("login")]
+        public IActionResult Login([FromBody]UserLogin userForLoginDto)
         {
-            var user = context.User.FirstOrDefault(x => x.Username == username && password == x.Password);
-            if (user != null)
+            try
             {
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
-                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-                var claims = new[] {
+                var user = context.User.FirstOrDefault(x => x.Username == userForLoginDto.Username && userForLoginDto.Password == x.Password);
+                if (user != null)
+                {
+
+                    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+                    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+                    var claims = new[] {
                     new Claim(JwtRegisteredClaimNames.Sub,user.Username),
                     new Claim(JwtRegisteredClaimNames.Email,user.Email),
                     new Claim("userId",user.Id.ToString()),
                     new Claim("userType",((UserType)user.UserType).ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                 };
-                var token = new JwtSecurityToken(
-                   issuer: configuration["Jwt:Issuer"],
-                   audience: configuration["Jwt:Issuer"],
-                   claims: claims, expires: DateTime.Now.AddHours(1),
-                   signingCredentials: credentials
-                    );
-                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                    var token = new JwtSecurityToken(
+                       issuer: configuration["Jwt:Issuer"],
+                       audience: configuration["Jwt:Issuer"],
+                       claims: claims, expires: DateTime.Now.AddHours(1),
+                       signingCredentials: credentials
+                        );
+
+                    var UserDetail = new UserDetail()
+                    {
+                        Id = user.Id,
+                        UserName = user.Username,
+                        Role = user.UserType,
+                        Token = new JwtSecurityTokenHandler().WriteToken(token)
+                    };
+                    return Ok(UserDetail);
+                }
+                return BadRequest("Invalid Crentials");
             }
-            return BadRequest("Invalid Crentials");
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
     }
 }

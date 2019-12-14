@@ -1,0 +1,175 @@
+<h2>Register</h2>
+<hr>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+        <label for="motherName">Mother Name</label>
+        <input type="text" formControlName="motherName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.motherName.errors }"
+        />
+        <div *ngIf="submitted && f.motherName.errors" class="invalid-feedback">
+            <div *ngIf="f.motherName.errors.required">Mother Name is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="husbandName">Husband Name</label>
+        <input type="text" formControlName="husbandName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.husbandName.errors }"
+        />
+        <div *ngIf="submitted && f.husbandName.errors" class="invalid-feedback">
+            <div *ngIf="f.husbandName.errors.required">Husband Name is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="aadhar">Aadhar Card Number</label>
+        <input type="text" formControlName="aadhar" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.aadhar.errors }"
+        />
+        <div *ngIf="submitted && f.aadhar.errors" class="invalid-feedback">
+            <div *ngIf="f.aadhar.errors.required">Aadhar card no. is required</div>
+            <div *ngIf="f.aadhar.errors.pattern">Aadhar number must be 16 digit number</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="email">Email Id</label>
+        <input type="email" email formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+        />
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">Email is required</div>
+            <div *ngIf="f.email.errors.email">Email pattern is not correct</div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="mobile">Mobile number</label>
+        <input type="text" formControlName="mobile" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }"
+        />
+        <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+            <div *ngIf="f.mobile.errors.required">Number is required</div>
+            <div *ngIf="f.mobile.errors.pattern">Mobile number must be 10 digit number</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="address">Full Address</label>
+        <input type="text" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"
+        />
+        <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+            <div *ngIf="f.address.errors.required">Address is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="zip">ZIP</label>
+        <input type="numer" formControlName="zip" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.zip.errors }" />
+        <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
+            <div *ngIf="f.zip.errors.required">zip is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="doctorVisitDayOfMonth">Doctor Visit Day Of Month</label>
+        <angular2-multiselect [data]="dropdownDoctorAnganwadiDay" formControlName="doctorVisitDayOfMonth" [ngClass]="{ 'is-invalid': submitted && f.doctorVisitDayOfMonth.errors }"
+        class="form-control" [(ngModel)]="selectedDoctorDay" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+        (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+    </angular2-multiselect>
+        <div *ngIf="submitted && f.doctorVisitDayOfMonth.errors" class="invalid-feedback">
+            <div *ngIf="f.doctorVisitDayOfMonth.errors.required">Doctor Visit Day Of Month is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="anganwadiVisitDayOfWeek">Anganwadi Visit Day Of Week</label>
+        <angular2-multiselect [data]="dropdownDoctorAnganwadiDay" formControlName="anganwadiVisitDayOfWeek" [ngClass]="{ 'is-invalid': submitted && f.anganwadiVisitDayOfWeek.errors }"
+        class="form-control" [(ngModel)]="selectedAnganwadiDay" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+        (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+    </angular2-multiselect>
+        <div *ngIf="submitted && f.anganwadiVisitDayOfWeek.errors" class="invalid-feedback">
+            <div *ngIf="f.anganwadiVisitDayOfWeek.errors.required">Anganwadi Visit Day Of Week is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="anganwadi">Anganwadi</label>
+        <angular2-multiselect [data]="dropdownAnganwadiList" formControlName="anganwadi" [ngClass]="{ 'is-invalid': submitted && f.anganwadi.errors }"
+            class="form-control" [(ngModel)]="selectedAnganwadi" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+            (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+        </angular2-multiselect>
+        <div *ngIf="submitted && f.anganwadi.errors" class="invalid-feedback">
+            <div *ngIf="f.anganwadi.errors.required">Anganwadi is required</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="doctor">Doctor</label>
+        <angular2-multiselect [data]="dropdownDoctorList" formControlName="doctor" [ngClass]="{ 'is-invalid': submitted && f.doctor.errors }"
+            class="form-control" [(ngModel)]="selectedDoctor" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+            (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+        </angular2-multiselect>
+        <div *ngIf="submitted && f.anganwadi.errors" class="invalid-feedback">
+            <div *ngIf="f.anganwadi.errors.required">Anganwadi is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="fertilityDate">Fertility Date</label>
+        <input type="date" formControlName="fertilityDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fertilityDate.errors }"
+        />
+        <div *ngIf="submitted && f.fertilityDate.errors" class="invalid-feedback">
+            <div *ngIf="f.fertilityDate.errors.required">Fertility Date is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="expectedDeliveryDate">Expected Delivery Date</label>
+        <input type="date" formControlName="expectedDeliveryDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.expectedDeliveryDate.errors }"
+        />
+        <div *ngIf="submitted && f.expectedDeliveryDate.errors" class="invalid-feedback">
+            <div *ngIf="f.expectedDeliveryDate.errors.required">Expected Delivery Date is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="isHivInfected">Is Hiv Infected</label>
+        <input type="text" formControlName="isHivInfected" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.isHivInfected.errors }"
+        />
+        <div *ngIf="submitted && f.isHivInfected.errors" class="invalid-feedback">
+            <div *ngIf="f.isHivInfected.errors.required">Is Hiv Infected is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="otherComplications">other Complications</label>
+        <input type="text" formControlName="otherComplications" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.otherComplications.errors }"
+        />
+        <div *ngIf="submitted && f.otherComplications.errors" class="invalid-feedback">
+            <div *ngIf="f.otherComplications.errors.required">Other Complications is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="numberOfBabies">Number Of Babies</label>
+        <input type="text" formControlName="numberOfBabies" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.numberOfBabies.errors }"
+        />
+        <div *ngIf="submitted && f.numberOfBabies.errors" class="invalid-feedback">
+            <div *ngIf="f.numberOfBabies.errors.required">Number Of Babies is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="numberOfPregnency">Number Of Pregnency</label>
+        <input type="text" formControlName="numberOfPregnency" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.numberOfPregnency.errors }"
+        />
+        <div *ngIf="submitted && f.numberOfPregnency.errors" class="invalid-feedback">
+            <div *ngIf="f.numberOfPregnency.errors.required">Number Of Pregnency is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="username">User Name</label>
+        <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+        />
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div *ngIf="f.username.errors.required">User Name is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="text" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+        />
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">Register</button>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+        />
+        <a [routerLink]="['/']" class="btn btn-link">Back to Home</a>
+    </div>
+</form>

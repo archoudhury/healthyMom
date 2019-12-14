@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "HealthyMom": {
+    "my_new_app": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "progress": true,
+            "progress": false,
             "extractCss": true,
             "outputPath": "dist",
             "index": "src/index.html",
@@ -22,7 +22,10 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/assets"],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css", 
+              "node_modules/@swimlane/ngx-datatable/index.css",   
+              "node_modules/@swimlane/ngx-datatable/assets/icons.css",
+              "node_modules/@swimlane/ngx-datatable/themes/material.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -50,18 +53,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "HealthyMom:build"
+            "browserTarget": "my_new_app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "HealthyMom:build:production"
+              "browserTarget": "my_new_app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "HealthyMom:build"
+            "browserTarget": "my_new_app:build"
           }
         },
         "test": {
@@ -71,7 +74,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": ["styles.css"],
+            "styles": ["src/styles.css"],
             "scripts": [],
             "assets": ["src/assets"]
           }
@@ -111,7 +114,7 @@
         }
       }
     },
-    "HealthyMom-e2e": {
+    "my_new_app-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -119,7 +122,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "HealthyMom:serve"
+            "devServerTarget": "my_new_app:serve"
           }
         },
         "lint": {
@@ -132,5 +135,5 @@
       }
     }
   },
-  "defaultProject": "HealthyMom"
+  "defaultProject": "my_new_app"
 }

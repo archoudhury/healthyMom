@@ -1,4 +1,9 @@
-public enum UserType
+using System;
+
+namespace HealthyMom.ViewModelsAndEnum
 {
-    Admin = 1, Doctor = 2, Anganwadi = 3, Mother = 4
+    public enum UserType
+    {
+        Admin = 1, Doctor = 2, Anganwadi = 3, Mother = 4
+    }
 }

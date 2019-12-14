@@ -3,9 +3,16 @@ a.navbar-brand {
   text-align: center;
   word-break: break-all;
 }
+app-nav-menu{
+  background-color: rebeccapurple;
+}
 
 html {
   font-size: 14px;
+}
+
+ul{
+  list-style: none;
 }
 @media (min-width: 768px) {
   html {
@@ -16,3 +23,11 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+.navbar-default .navbar-nav > .active > a {
+  color: #555;
+  background-color: #e7e7e7;
+}
+
+  .navbar-default .navbar-nav > .active > a:hover {
+      color:#857b7b;
+  }

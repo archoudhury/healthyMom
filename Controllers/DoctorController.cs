@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using HealthyMom.Models;
 using HealthyMom.Models.Context;
 using HealthyMom.ViewModelsAndEnum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -26,6 +28,16 @@ namespace HealthyMom.Controllers
             return identity.Claims.FirstOrDefault(x => x.Type == name).Value;
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("GetTodaysAppointments")]
+        public IActionResult GetTodaysAppointments()
+        {
+            var appointment = context.Appointment.ToList();
+            return Ok(appointment);
+        }
+
+        [Authorize]
         [HttpPost]
         [Route("RegisterMother")]
         public IActionResult RegisterMother(MotherRegistration model)
@@ -63,6 +75,28 @@ namespace HealthyMom.Controllers
             context.SaveChanges();
             return Ok("Created");
         }
+
+        public void CreateAppointments(string doctorDay, string anganwadiDay, int motherid)
+        {
+            List<Appointment> appointment = new List<Appointment>();
+            for (int i = 0; i < 40; i++)
+            {
+                appointment.Add(new Appointment()
+                {
+                    Name = "Hello"
+                });
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+
+            }
+            
+            context.Appointment.AddRange(appointment);
+
+            context.SaveChanges();
+        }
+
 
 
     }
