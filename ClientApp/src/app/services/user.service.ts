@@ -12,6 +12,8 @@ export class UserService {
     readonly login = 'api/Auth/login';
     readonly registorMom = 'api/Doctor/RegisterMother';
     readonly getDoctorAppointments = 'api/doctor/GetTodaysAppointments'
+    readonly getAnganwadiAppointments = 'api/anganwadi'
+;
 
     constructor(private httpClient: HttpClient) {
         if (this.userList.length == 0) {
@@ -34,6 +36,16 @@ export class UserService {
           tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
           catchError(this.handleError));
     }
+
+    getAnganwadiAppointment(){
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+        const url = `${this.getAnganwadiAppointments}`;
+        return this.httpClient.get(url, { headers: headers, observe: "response" }).pipe(
+          map(this.extractData2),
+          tap(data => console.log('Get doctor appointments: ' + JSON.stringify(data))),
+          catchError(this.handleError));
+    }
+
 
     registerMother(motherReg: IMotherRegistration) {
         let headersObj = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });

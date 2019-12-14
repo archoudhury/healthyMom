@@ -31,14 +31,10 @@ export class DashboardComponent implements OnInit {
     { prop: 'aadhar', label: 'Aadhar number' },
     { prop: 'mobile', label: 'Mobile number' },
     { prop: 'anganwadiToReport', label: 'Anganwadi To Report' },
-
-
   ];
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
   selected = [];
-
-
   ngOnInit() {
     this.subs.sink =  this.service.getDoctorAppointment().subscribe((res: IAppointment) =>{
 

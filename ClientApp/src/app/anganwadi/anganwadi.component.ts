@@ -1,6 +1,8 @@
 import { SubSink } from 'subsink';
 import { Component, OnInit, OnDestroy, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
+import { UserService } from '../services/user.service';
+import { IAppointment } from '../models/IAppoinment';
 
 @Component({
     selector: 'app-anganwadi',
@@ -8,12 +10,8 @@ import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
     styleUrls: ['./anganwadi.component.css']
 })
 export class AnganwadiComponent implements OnInit, OnDestroy {
-
-
-    ngOnDestroy(): void {
-        throw new Error("Method not implemented.");
-    }
-    constructor(private renderer: Renderer2) { }
+    private subs = new SubSink();
+    constructor(private renderer: Renderer2, private service: UserService) { }
     @ViewChild('commentPoUp', { static: false }) public commentPoUp: ElementRef;
 
     rows = [
@@ -41,6 +39,14 @@ export class AnganwadiComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
+        this.subs.sink = this.service.getAnganwadiAppointment().subscribe((res: any[]) => {
+            if (res && res.length > 0) {
+                this.rows = res;
+            }
+        })
+    }
+    ngOnDestroy() {
+        this.subs.unsubscribe();
     }
 
     onSelect(selcted: any) {

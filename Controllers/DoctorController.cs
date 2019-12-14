@@ -33,7 +33,7 @@ namespace HealthyMom.Controllers
         public IActionResult GetTodaysAppointments()
         {
             var appointment = context.Appointment.ToList();
-            return Ok();
+            return Ok(appointment);
         }
 
         [Authorize]
