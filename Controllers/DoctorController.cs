@@ -42,6 +42,21 @@ namespace HealthyMom.Controllers
         [Route("RegisterMother")]
         public IActionResult RegisterMother(MotherRegistration model)
         {
+            var user = new User
+            {
+                Username = model.Username,
+                Password = model.Password,
+                Aadhar = model.Aadhar,
+                Mobile = model.Mobile,
+                Email = model.Email,
+                UserType = (short)UserType.Mother,
+                CreatedBy = long.Parse(GetClaimByName("userId")),
+                CreatedDate = DateTime.Now
+            };
+            context.SaveChanges();
+            context.User.Add(user);
+            context.SaveChanges();
+
             var mother = new Mother
             {
                 Name = model.MotherName,
@@ -56,48 +71,56 @@ namespace HealthyMom.Controllers
                 Address = model.Address,
                 Zip = model.Zip,
                 CreatedBy = long.Parse(GetClaimByName("userId")),
-                CreatedDate = DateTime.Now
-            };
-
-            var user = new User
-            {
-                Username = model.Username,
-                Password = model.Password,
-                Aadhar = model.Aadhar,
-                Mobile = model.Mobile,
-                Email = model.Email,
-                UserType = (short)UserType.Mother,
-                CreatedBy = long.Parse(GetClaimByName("userId")),
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                UserId = user.Id
             };
             context.Mother.Add(mother);
-            context.User.Add(user);
+
+
             context.SaveChanges();
+
+            var sampleAppointments = context.SampleAppointmentData.OrderBy(x => x.Id).ToList();
+
+            var dateOfAnganwadi = DateTime.Now.Date;
+            foreach (var item in sampleAppointments.Where(x => x.Type == (short)UserType.Anganwadi))
+            {
+                var appointment = new Appointment
+                {
+                    Name = item.Name,
+                    Details = item.Details,
+                    Type = item.Type,
+                    MotherId = mother.Id,
+                    ApproverId = model.AnganwadiId,
+                    Date = dateOfAnganwadi,
+                    CreatedBy = long.Parse(GetClaimByName("userId")),
+                    CreatedDate = DateTime.Now
+                };
+                context.Appointment.Add(appointment);
+                dateOfAnganwadi = dateOfAnganwadi.AddDays(7);
+            }
+
+            var dateOfDoctor = DateTime.Now.Date;
+            foreach (var item in sampleAppointments.Where(x => x.Type == (short)UserType.Doctor))
+            {
+                var appointment = new Appointment
+                {
+                    Name = item.Name,
+                    Details = item.Details,
+                    Type = item.Type,
+                    MotherId = mother.Id,
+                    ApproverId = long.Parse(GetClaimByName("userId")),
+                    Date = dateOfDoctor,
+                    CreatedBy = long.Parse(GetClaimByName("userId")),
+                    CreatedDate = DateTime.Now
+                };
+                context.Appointment.Add(appointment);
+                dateOfDoctor = dateOfDoctor.AddMonths(1);
+            }
+
+            context.SaveChanges();
+
             return Ok("Created");
         }
-
-        public void CreateAppointments(string doctorDay, string anganwadiDay, int motherid)
-        {
-            List<Appointment> appointment = new List<Appointment>();
-            for (int i = 0; i < 40; i++)
-            {
-                appointment.Add(new Appointment()
-                {
-                    Name = "Hello"
-                });
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-
-            }
-            
-            context.Appointment.AddRange(appointment);
-
-            context.SaveChanges();
-        }
-
-
 
     }
 }
