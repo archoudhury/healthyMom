@@ -5,7 +5,8 @@ import { UserService } from '../services/user.service';
 import { IUser } from '../models/IUser';
 import { IMotherRegistration } from '../models/IMotherRegistration'
 import { UtilityService } from '../services/utility';
-import { DoctorList, AnganwadiList } from '../data/UserType';
+import { DoctorList, AnganwadiList, WeekDays } from '../data/UserType';
+import { IDropdown } from '../models/IDropdown';
 
 @Component({
   selector: 'app-registration',
@@ -14,11 +15,13 @@ import { DoctorList, AnganwadiList } from '../data/UserType';
 })
 export class RegistrationComponent implements OnInit {
   public user: any;
-  dropdownAnganwadiList = AnganwadiList;
-  dropdownDoctorList = DoctorList;
-
-  selectedAnganwadi = [];
-  selectedDoctor = [];
+  dropdownAnganwadiList: IDropdown[] = AnganwadiList;
+  dropdownDoctorList: IDropdown[] = DoctorList;
+  dropdownDoctorAnganwadiDay: IDropdown[] = WeekDays;
+  selectedDoctorDay: IDropdown[] = [];
+  selectedAnganwadiDay: IDropdown[] = [];
+  selectedAnganwadi: IDropdown[] = [];
+  selectedDoctor: IDropdown[] = [];
   dropdownSettings = {};
   registerForm: FormGroup;
   motherReg: IMotherRegistration;
@@ -44,26 +47,26 @@ export class RegistrationComponent implements OnInit {
     };
     this.registerForm = this.formBuilder.group({
       motherName: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', Validators.required, Validators.email],
       aadhar: ['', [Validators.required, Validators.pattern('[0-9]{16}')  // validates input is digit
       ]],
       mobile: ['', [
         Validators.required, Validators.pattern('[0-9]{10}')  // validates input is digit
       ]],
-      zip: ['', Validators.required],
-      doctorVisitDayOfMonth: ['', Validators.required],
-      anganwadiVisitDayOfWeek: ['', Validators.required],
-      anganwadi: ['', Validators.required],
+      zip: ['', Validators.required,  Validators.pattern('[0-9]{6}')],
+      doctorVisitDayOfMonth: [[], Validators.required],
+      anganwadiVisitDayOfWeek: [[], Validators.required],
+      anganwadi: [[], Validators.required],
       fertilityDate: ['', Validators.required],
       expectedDeliveryDate: ['', Validators.required],
-      doctor: ['', Validators.required],
+      doctor: [[], Validators.required],
       isHivInfected: ['', Validators.required],
       otherComplications: ['', Validators.required],
       numberOfBabies: ['', Validators.required],
       numberOfPregnency: ['', Validators.required],
       husbandName: ['', Validators.required],
       username: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', Validators.required, Validators.minLength(6)],
       // motherName: ['', Validators.required],
       // anganwadi: [[], Validators.required],
       // email: ['', Validators.required],
@@ -103,10 +106,15 @@ export class RegistrationComponent implements OnInit {
     let user = <IMotherRegistration>{};
     var motherReg: IMotherRegistration = this.utilityService.assignObject(user, this.registerForm.value);
     motherReg.doctorId = this.selectedDoctor[0].id;
+    motherReg.isHivInfected = false;
     motherReg.anganwadiId = this.selectedAnganwadi[0].id;
-    this.userService.registerMother(motherReg).subscribe((res:any) =>{
-      if(res){
-        
+    motherReg.doctorVisitDayOfMonth = this.selectedDoctorDay[0].itemName;
+    motherReg.anganwadiVisitDayOfWeek = this.selectedAnganwadiDay[0].itemName;
+    motherReg.numberOfBabies = + motherReg.numberOfBabies;
+    motherReg.numberOfPregnency = + motherReg.numberOfPregnency;
+    this.userService.registerMother(motherReg).subscribe((res: any) => {
+      if (res) {
+
       }
     });
   }

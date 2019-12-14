@@ -3,6 +3,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { UserService } from '../../services/user.service';
 import { UserDetail } from '../../models/userDetail';
 import { first, map } from 'rxjs/operators';
+import { EmployeeType } from '../../models/employeeType';
 
 @Injectable()
 export class AuthMotherGuard implements CanActivate {
@@ -11,7 +12,7 @@ export class AuthMotherGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         this.service.getsubject().subscribe(((data: UserDetail) => {
-            if (data && data.role == 1) {
+            if (data && data.role == EmployeeType.Mother) {
                 this.isAuthenticated = true;
                 return true;
             }

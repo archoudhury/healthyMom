@@ -25,3 +25,14 @@ export const DoctorList = [
     { "id": 4, "itemName": "Doctor 4", prop: "doctor4" },
     { "id": 5, "itemName": "Doctor 5", prop: "doctor5" },
 ];
+
+export const WeekDays = [
+    { "id": 1, "itemName": "Monday", prop: "monday" },
+    { "id": 1, "itemName": "Tuesday", prop: "tuesday" },
+    { "id": 1, "itemName": "Wednesday", prop: "wednesday" },
+    { "id": 1, "itemName": "Thursday", prop: "fhursday" },
+    { "id": 1, "itemName": "Friday", prop: "friday" },
+    { "id": 1, "itemName": "Saturday", prop: "saturday" },
+    { "id": 1, "itemName": "Sunday", prop: "sunday" },
+
+];

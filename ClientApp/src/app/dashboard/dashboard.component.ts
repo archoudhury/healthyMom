@@ -1,5 +1,8 @@
 import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
+import { UserService } from '../services/user.service';
+import { IAppointment } from '../models/IAppoinment';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,7 +11,8 @@ import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private renderer: Renderer2) { }
+  private subs = new SubSink();
+  constructor(private renderer: Renderer2, private service: UserService) { }
   @ViewChild('commentPoUp', { static: false }) public commentPoUp: ElementRef;
 
   rows = [
@@ -36,6 +40,9 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit() {
+    this.subs.sink =  this.service.getDoctorAppointment().subscribe((res: IAppointment) =>{
+
+    })
   }
 
   onSelect(selcted: any) {
@@ -56,5 +63,8 @@ export class DashboardComponent implements OnInit {
   }
   onActivate(event) {
     console.log('Activate Event', event);
+  }
+  ngOnDestroy(){
+    this.subs.unsubscribe();
   }
 }

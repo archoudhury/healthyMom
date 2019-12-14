@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { UserDetail } from '../../models/userDetail';
+import { EmployeeType } from '../../models/employeeType';
 
 @Injectable()
 export class AuthAdminGuard implements CanActivate {
@@ -11,7 +12,7 @@ export class AuthAdminGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         this.service.getsubject().subscribe(((data: UserDetail) => {
-            if (data && data.role == 2) {
+            if (data && data.role == EmployeeType.Admin) {
                 this.isAuthenticated = true;
                 return true;
             }

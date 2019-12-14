@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserDetail } from '../../models/userDetail';
 import { UserService } from '../../services/user.service';
+import { EmployeeType } from '../../models/employeeType';
 
 @Injectable()
 export class AuthDoctorGuard implements CanActivate {
@@ -11,12 +12,13 @@ export class AuthDoctorGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         this.service.getsubject().subscribe(((data: UserDetail) => {
-            if (data && data.role == 3) {
+            if (data && data.role == EmployeeType.Doctor) {
                 this.isAuthenticated = true;
                 return true;
             }
             else {
                 this.isAuthenticated = false;
+                this.router.navigate(['/login']);
                 return false;
             }
         })).unsubscribe();

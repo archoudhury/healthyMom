@@ -4,6 +4,7 @@ using System.Security.Claims;
 using HealthyMom.Models;
 using HealthyMom.Models.Context;
 using HealthyMom.ViewModelsAndEnum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -26,6 +27,16 @@ namespace HealthyMom.Controllers
             return identity.Claims.FirstOrDefault(x => x.Type == name).Value;
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("GetTodaysAppointments")]
+        public IActionResult GetTodaysAppointments()
+        {
+            var appointment = context.Appointment.ToList();
+            return Ok();
+        }
+
+        [Authorize]
         [HttpPost]
         [Route("RegisterMother")]
         public IActionResult RegisterMother(MotherRegistration model)

@@ -20,7 +20,7 @@
     </div>
     <div class="form-group">
         <label for="aadhar">Aadhar Card Number</label>
-        <input type="number" formControlName="aadhar" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.aadhar.errors }"
+        <input type="text" formControlName="aadhar" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.aadhar.errors }"
         />
         <div *ngIf="submitted && f.aadhar.errors" class="invalid-feedback">
             <div *ngIf="f.aadhar.errors.required">Aadhar card no. is required</div>
@@ -29,15 +29,17 @@
     </div>
     <div class="form-group">
         <label for="email">Email Id</label>
-        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+        <input type="email" email formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
         />
         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
             <div *ngIf="f.email.errors.required">Email is required</div>
+            <div *ngIf="f.email.errors.email">Email pattern is not correct</div>
+
         </div>
     </div>
     <div class="form-group">
         <label for="mobile">Mobile number</label>
-        <input type="number" formControlName="mobile" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }"
+        <input type="text" formControlName="mobile" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }"
         />
         <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
             <div *ngIf="f.mobile.errors.required">Number is required</div>
@@ -53,16 +55,20 @@
     </div>
     <div class="form-group">
         <label for="doctorVisitDayOfMonth">Doctor Visit Day Of Month</label>
-        <input type="text" formControlName="doctorVisitDayOfMonth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.doctorVisitDayOfMonth.errors }"
-        />
+        <angular2-multiselect [data]="dropdownDoctorAnganwadiDay" formControlName="doctorVisitDayOfMonth" [ngClass]="{ 'is-invalid': submitted && f.doctorVisitDayOfMonth.errors }"
+        class="form-control" [(ngModel)]="selectedDoctorDay" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+        (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+    </angular2-multiselect>
         <div *ngIf="submitted && f.doctorVisitDayOfMonth.errors" class="invalid-feedback">
             <div *ngIf="f.doctorVisitDayOfMonth.errors.required">Doctor Visit Day Of Month is required</div>
         </div>
     </div>
     <div class="form-group">
         <label for="anganwadiVisitDayOfWeek">Anganwadi Visit Day Of Week</label>
-        <input type="text" formControlName="anganwadiVisitDayOfWeek" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.anganwadiVisitDayOfWeek.errors }"
-        />
+        <angular2-multiselect [data]="dropdownDoctorAnganwadiDay" formControlName="anganwadiVisitDayOfWeek" [ngClass]="{ 'is-invalid': submitted && f.anganwadiVisitDayOfWeek.errors }"
+        class="form-control" [(ngModel)]="selectedAnganwadiDay" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+        (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+    </angular2-multiselect>
         <div *ngIf="submitted && f.anganwadiVisitDayOfWeek.errors" class="invalid-feedback">
             <div *ngIf="f.anganwadiVisitDayOfWeek.errors.required">Anganwadi Visit Day Of Week is required</div>
         </div>

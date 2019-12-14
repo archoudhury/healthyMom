@@ -7,9 +7,6 @@
             "type": "process",
             "args": [
                 "build",
-<<<<<<< HEAD
-                "${workspaceFolder}/HealthyMom.csproj"
-=======
                 "${workspaceFolder}/HealthyMom.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
@@ -38,7 +35,6 @@
                 "${workspaceFolder}/HealthyMom.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
->>>>>>> origin/master
             ],
             "problemMatcher": "$msCompile"
         }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { UserDetail } from '../../models/userDetail';
+import { EmployeeType } from '../../models/employeeType';
 
 @Injectable()
 export class AuthAnganwadiGuard implements CanActivate {
@@ -10,7 +11,7 @@ export class AuthAnganwadiGuard implements CanActivate {
     constructor(private router: Router, private service: UserService) { }
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         this.service.getsubject().subscribe(((data: UserDetail) => {
-            if (data && data.role == 1) {
+            if (data && data.role == EmployeeType.Anganwadi) {
                 this.isAuthenticated = true;
                 return true;
             }

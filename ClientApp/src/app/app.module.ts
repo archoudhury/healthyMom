@@ -56,18 +56,15 @@ import { UtilityService } from './services/utility';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: SignInComponent },
       { path: 'signup', component: SignUpComponent },      
-      
       { path: 'dashboard',canActivate:[AuthDoctorGuard], component: DashboardComponent },
-      { path: 'register', component: RegistrationComponent },
-      { path: 'history', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
-      { path: 'todo', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
-      { path: 'detail', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
-      { path: 'anganwadi/appointment', component: AnganwadiComponent },
+      { path: 'register', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
+      { path: 'history', canActivate:[AuthMotherGuard], component: RegistrationComponent },
+      { path: 'todo', canActivate:[AuthMotherGuard], component: RegistrationComponent },
+      { path: 'detail', canActivate:[AuthMotherGuard], component: RegistrationComponent },
+      { path: 'anganwadi/appointment', canActivate:[AuthAnganwadiGuard], component: AnganwadiComponent },
       { path: 'update', canActivate:[AuthDoctorGuard], component: RegistrationComponent },
       { path: 'not-found', component: NotFoundComponent },
-
       { path: '**', redirectTo: 'not-found' }
-
     ])
   ],
   providers: [

@@ -1,5 +1,5 @@
 export interface IMotherRegistration {
-    motherId: number,
+    motherId: any,
     motherName: string,
     aadhar: string,
     email: string,
@@ -7,14 +7,14 @@ export interface IMotherRegistration {
     zip: string,
     doctorVisitDayOfMonth: string,
     anganwadiVisitDayOfWeek: string,
-    anganwadiId: number,
+    anganwadiId: any,
     fertilityDate: Date
     expectedDeliveryDate: Date
-    doctorId: number,
+    doctorId: any,
     isHivInfected: boolean,
     otherComplications: string,
-    numberOfBabies: number,
-    numberOfPregnency: number,
+    numberOfBabies: any,
+    numberOfPregnency: any,
     husbandName: string,
     username: string,
     password: string
