@@ -1,2 +1,15 @@
 <h2>Personal details</h2>
 <hr>
+<div *ngIf="detail != undefined">
+    <div><Strong>Mother Name : </Strong><div [innerHTML]="detail.motherName"></div></div>
+    <div><Strong>Husband name : </Strong><div [innerHTML]="detail.husbandName"></div></div>
+    <div><Strong>Address name : </Strong><div [innerHTML]="detail.address"></div></div>
+
+    <div><Strong>Fertility Date : </Strong><div [innerHTML]="detail.fertilityDate"></div></div>
+    <div><Strong>Expected Delivery Date : </Strong><div [innerHTML]="detail.expectedDeliveryDate"></div></div>
+    <div><Strong>Doctor appointed: </Strong><div [innerHTML]="detail.doctor"></div></div>
+    <div><Strong>Anganwadi appointed : </Strong><div [innerHTML]="detail.anganwadi"></div></div>
+    <div><Strong>otherComplications : </Strong><div [innerHTML]="detail.otherComplications"></div></div>
+    <div><Strong>Number Of Babies : </Strong><div [innerHTML]="detail.numberOfBabies"></div></div>
+    <div><Strong>Number Of Pregnency : </Strong><div [innerHTML]="detail.numberOfPregnency"></div></div>
+</div>

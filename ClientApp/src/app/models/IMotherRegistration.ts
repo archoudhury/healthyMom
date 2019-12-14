@@ -8,6 +8,7 @@ export interface IMotherRegistration {
     doctorVisitDayOfMonth: string,
     anganwadiVisitDayOfWeek: string,
     anganwadiId: any,
+    address: string
     fertilityDate: Date
     expectedDeliveryDate: Date
     doctorId: any,

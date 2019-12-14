@@ -53,7 +53,8 @@ export class RegistrationComponent implements OnInit {
       mobile: ['', [
         Validators.required, Validators.pattern('[0-9]{10}')  // validates input is digit
       ]],
-      zip: ['', Validators.required,  Validators.pattern('[0-9]{6}')],
+      zip: ['', Validators.required, Validators.pattern('[0-9]{6}')],
+      address: ['', Validators.required],
       doctorVisitDayOfMonth: [[], Validators.required],
       anganwadiVisitDayOfWeek: [[], Validators.required],
       anganwadi: [[], Validators.required],
@@ -66,20 +67,7 @@ export class RegistrationComponent implements OnInit {
       numberOfPregnency: ['', Validators.required],
       husbandName: ['', Validators.required],
       username: ['', Validators.required],
-      password: ['', Validators.required, Validators.minLength(6)],
-      // motherName: ['', Validators.required],
-      // anganwadi: [[], Validators.required],
-      // email: ['', Validators.required],
-      // userType: [[], Validators.required],
-      // LastName: ['', Validators.required],
-      // aadhar: ['', [Validators.required, Validators.pattern('[0-9]{16}')  // validates input is digit
-      // ]],
-      // mobile: ['', [
-      //   Validators.required,
-      //   Validators.pattern('[0-9]{10}')  // validates input is digit
-      // ]],
-      // UserName: ['', Validators.required],
-      // Password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', Validators.required, Validators.minLength(6)]
     });
   }
 
@@ -102,7 +90,6 @@ export class RegistrationComponent implements OnInit {
 
     this.loading = true;
 
-
     let user = <IMotherRegistration>{};
     var motherReg: IMotherRegistration = this.utilityService.assignObject(user, this.registerForm.value);
     motherReg.doctorId = this.selectedDoctor[0].id;
@@ -114,7 +101,7 @@ export class RegistrationComponent implements OnInit {
     motherReg.numberOfPregnency = + motherReg.numberOfPregnency;
     this.userService.registerMother(motherReg).subscribe((res: any) => {
       if (res) {
-
+        this.router.navigate(['/dashboard']);
       }
     });
   }

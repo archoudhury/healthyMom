@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using HealthyMom.Models;
@@ -74,6 +75,28 @@ namespace HealthyMom.Controllers
             context.SaveChanges();
             return Ok("Created");
         }
+
+        public void CreateAppointments(string doctorDay, string anganwadiDay, int motherid)
+        {
+            List<Appointment> appointment = new List<Appointment>();
+            for (int i = 0; i < 40; i++)
+            {
+                appointment.Add(new Appointment()
+                {
+                    Name = "Hello"
+                });
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+
+            }
+            
+            context.Appointment.AddRange(appointment);
+
+            context.SaveChanges();
+        }
+
 
 
     }
