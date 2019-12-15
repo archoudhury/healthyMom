@@ -4,7 +4,9 @@
 
 <hr>
 <ngx-datatable class="material" [rows]="rows" [columnMode]="ColumnMode.force" [columns]="columns" [headerHeight]="50" [footerHeight]="50"
-    rowHeight="auto" [limit]="5" [selected]="selected" [selectionType]="SelectionType.single" (activate)="onActivate($event)"
+    rowHeight="auto" [limit]="5" [selected]="selected" 
+    [loadingIndicator]="loadingIndicator"
+    [selectionType]="SelectionType.single" (activate)="onActivate($event)"
     (select)="onSelect($event)">
     <ngx-datatable-column *ngFor="let col of columns" [flexGrow]="col.size || 1" [name]="col.prop" [sortable]="true" [canAutoResize]="true" [draggable]="true" [resizeable]="true">
             <ng-template ngx-datatable-header-template let-sort="sortFn">

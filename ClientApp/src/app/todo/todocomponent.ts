@@ -26,7 +26,7 @@ export class ToDoComponent implements OnInit {
     count = 60;
     public sel = [];
     public errorMessage: string = "";
-
+    loadingIndicator : boolean = true;
     public generatedOTP: string = "";
     public isGeneratedOTP: boolean = false;
     public loading = false;
@@ -50,9 +50,11 @@ export class ToDoComponent implements OnInit {
     ngOnInit(): void {
         this.subs.sink = this.service.getsubject().subscribe((res: any) => {
             this.user = res;
+            
         })
         this.subs.sink = this.service.getMotherAppointments().subscribe((res: any) => {
             this.rows = res;
+            this.loadingIndicator = false;
             console.log(res);
         })
     }

@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
   public mother: IMother;
   public errorMessage: string = "";
   private subs = new SubSink();
+  loadingIndicator =  true;
   public isDisabled: boolean = true;
   constructor(private renderer: Renderer2, private service: UserService) { }
   @ViewChild('commentPoUp', { static: false }) public commentPoUp: ElementRef;
@@ -37,6 +38,7 @@ export class DashboardComponent implements OnInit {
   getAppintments() {
     this.subs.sink = this.service.getDoctorAppointment().subscribe((res: IAppointment[]) => {
       this.rows = res;
+      this.loadingIndicator = false;
       console.log(res);
     })
   }

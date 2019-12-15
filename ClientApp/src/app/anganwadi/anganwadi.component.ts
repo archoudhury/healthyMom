@@ -31,6 +31,7 @@ export class AnganwadiComponent implements OnInit, OnDestroy {
     selected = [];
     public errorMessage: string = "";
     public isDisabled: boolean = true;
+    loadingIndicator = true;
 
 
     ngOnInit() {
@@ -40,6 +41,7 @@ export class AnganwadiComponent implements OnInit, OnDestroy {
     getAppintments() {
         this.subs.sink = this.service.getAnganwadiAppointment().subscribe((res: any[]) => {
             if (res && res.length > 0) {
+                this.loadingIndicator = false;
                 this.rows = res;
             }
         })
