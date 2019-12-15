@@ -10,7 +10,9 @@ app-nav-menu{
 html {
   font-size: 14px;
 }
-
+.log-out{
+  cursor: pointer;
+}
 ul{
   list-style: none;
 }

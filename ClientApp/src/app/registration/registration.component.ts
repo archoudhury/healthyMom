@@ -7,6 +7,7 @@ import { IMotherRegistration } from '../models/IMotherRegistration'
 import { UtilityService } from '../services/utility';
 import { DoctorList, AnganwadiList, WeekDays } from '../data/UserType';
 import { IDropdown } from '../models/IDropdown';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-registration',
@@ -53,7 +54,7 @@ export class RegistrationComponent implements OnInit {
       mobile: ['', [
         Validators.required, Validators.pattern('[0-9]{10}')  // validates input is digit
       ]],
-      zip: ['', Validators.required, Validators.pattern('[0-9]{6}')],
+      zip: ['', [Validators.required, Validators.pattern('[0-9]{6}')]],
       address: ['', Validators.required],
       doctorVisitDayOfMonth: [[], Validators.required],
       anganwadiVisitDayOfWeek: [[], Validators.required],
@@ -67,7 +68,7 @@ export class RegistrationComponent implements OnInit {
       numberOfPregnency: ['', Validators.required],
       husbandName: ['', Validators.required],
       username: ['', Validators.required],
-      password: ['', Validators.required, Validators.minLength(6)]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -100,10 +101,16 @@ export class RegistrationComponent implements OnInit {
     motherReg.numberOfBabies = + motherReg.numberOfBabies;
     motherReg.numberOfPregnency = + motherReg.numberOfPregnency;
     this.userService.registerMother(motherReg).subscribe((res: any) => {
-      if (res) {
+      if (res && res == "OK") {
+        alert("Mom Registered Sucessfully");
         this.router.navigate(['/dashboard']);
       }
-    });
+    }, err => {
+      this.loading = false;
+      console.log('HTTP Error', err)
+    },
+      () => console.log('HTTP request completed.'),
+    );
   }
 
   onItemSelect(item: any) {
