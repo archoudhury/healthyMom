@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SubSink } from 'subsink';
+import { EmployeeType } from '../models/employeeType';
 @Component({
     selector: 'app-sign-in',
     templateUrl: './sign-in.component.html',
@@ -56,29 +57,25 @@ export class SignInComponent implements OnInit {
         this.loading = true;
         this.userService.checkUser(this.loginForm.value.UserName, this.loginForm.value.Password).subscribe((result: any) => {
             console.log(result);
-            this.router.navigate(['/']);
+            if (result) {
+
+                switch (result.role) {
+                    case EmployeeType.Doctor:
+                        this.router.navigate(['/dashboard']);
+                        break;
+                    case EmployeeType.Anganwadi:
+                        this.router.navigate(['/anganwadi/appointment']);
+                        break;
+                    case EmployeeType.Mother:
+                        this.router.navigate(['/todo']);
+                        break;
+                    default:
+                        this.router.navigate(['/']);
+                        break;
+                }
+            }
         },
             catchError(this.errorHandler));
-        // if (true) {
-        //     this.loading = false;
-        //     this.errorOccured = false;
-        //     // this.router.navigate(['/dashboard']);
-        // } else {
-        //     this.loading = false;
-        //     this.errorOccured = true;
-        // }
-
-        // this.userService.loginUser(this.loginForm.value).subscribe((data: any) => {
-        //     localStorage.setItem('userToken', data.tokenString);
-        //     if (this.router.url.indexOf('returnUrl') > 1) {
-        //         this.router.navigate(['/' + this.router.url.split('%2F')[1] + '']);
-        //     } else {
-        //         this.router.navigate(['/home']);
-        //     }
-
-        // }, (error) => {
-        //     console.log(error);
-        //     });
     }
 
     errorHandler(error: HttpErrorResponse) {

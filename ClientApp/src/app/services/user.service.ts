@@ -52,15 +52,14 @@ export class UserService {
     }
 
 
-    registerMother(motherReg: IMotherRegistration) {
+    registerMother(motherReg: IMotherRegistration): Observable<any> {
         let headersObj = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') });
         let self = this;
         const url = `${this.registorMom}`;
         return this.httpClient.post(url, motherReg, { headers: headersObj, observe: "response" }).pipe(
-            map((p) => this.extractData2(p)),
-            tap(data => {
-                localStorage.setItem('token', data.token);
-                this.userSubject.next(data);
+            map((p)=>{
+                console.log(p);
+                return p.statusText;
             }),
             catchError(error => this.handleError(error, self))
         );

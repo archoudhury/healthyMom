@@ -33,7 +33,7 @@ namespace HealthyMom.Controllers
 
         public IActionResult CheckToken()
         {
-            var userInfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
+            //userInfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
             
             return Ok();
         }

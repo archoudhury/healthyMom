@@ -81,7 +81,7 @@ namespace HealthyMom.Controllers
             appointment.IsOtpVerified = true;
             appointment.IsCompleted = true;
             context.SaveChanges();
-            return Ok("OTP verified");
+            return Ok();
         }
 
         private string GetClaimByName(string name)

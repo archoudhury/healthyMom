@@ -111,7 +111,9 @@ export class AnganwadiComponent implements OnInit, OnDestroy {
     ValidateOtp() {
         this.service.ValidateOtp(this.selected[0].id, +this.otp).subscribe((res: any) => {
             if (res) {
+                alert("Process completed sucessfully ")
                 this.getAppintments();
+                this.closePopUp();
             }
         })
     }

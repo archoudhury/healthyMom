@@ -45,9 +45,9 @@ namespace HealthyMom.Controllers
         {
             var m = context.Mother
                             .Join(context.User,
-                                m => m.UserId,
+                                ma => ma.UserId,
                                 u => u.Id,
-                                (m, u) => new { Mother = m, User = u }
+                                (ma, u) => new { Mother = ma, User = u }
                             ).FirstOrDefault(x => x.User.Id == x.Mother.UserId && x.Mother.UserId == id);
 
             if (m == null)
@@ -63,9 +63,9 @@ namespace HealthyMom.Controllers
         {
             var m = context.Mother
                             .Join(context.User,
-                                m => m.UserId,
+                                ma => ma.UserId,
                                 u => u.Id,
-                                (m, u) => new { Mother = m, User = u }
+                                (ma, u) => new { Mother = ma, User = u }
                             ).FirstOrDefault(x => x.User.Id == x.Mother.UserId);
             return Ok(m.Mother);
         }
