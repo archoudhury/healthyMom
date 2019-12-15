@@ -45,7 +45,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table *ngIf="mother != undefined && mother != null">
+                <table *ngIf="mother != undefined && mother != null && !loading">
                     <tr>
                         <td>
                             <strong>Mother name: </strong>
@@ -72,9 +72,6 @@
                         </td>
                     </tr>
                 </table>
-
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" [disabled]="isDisabled" (click)="ValidateOtp()" class="btn btn-primary">Verify OTP</button>

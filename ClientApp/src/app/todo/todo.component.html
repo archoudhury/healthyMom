@@ -17,8 +17,7 @@
             <ng-template #nondate>
                 <span *ngIf="col.prop == 'type' ;else nontype">{{ pipeAppointmentType(value)}}</span>
                 <ng-template #nontype>
-                    <span style="    padding: 5px 20px;color: white;" [ngStyle]="{'background-color': !value ? 'red': 'green' }"
-                        *ngIf="col.prop == 'isCompleted' ;else nonCompleted">{{value ? 'Completed' : 'Pending'}}</span>
+                    <span style="    padding: 5px 20px;color: white;" [ngStyle]="{'background-color': !value ? 'red': 'green' }" *ngIf="col.prop == 'isCompleted' ;else nonCompleted">{{value ? 'Completed' : 'Pending'}}</span>
                 </ng-template>
                 <ng-template #nonCompleted>
                     <span>{{ value}}</span>
@@ -82,10 +81,12 @@
                             <strong> Generate OTP:</strong>
                         </td>
                         <td>
-                            <button class="btn btn-primary" [disabled]="isDisable || isGeneratedOTP" (click)="generateOTP()">Generate OTP </button>
-                            <span *ngIf="isDisable">
-                                Generating OTP is enabled only for todays date.
-                            </span>
+                            <button class="btn btn-primary" *ngIf="!completed; else noncompleted" [disabled]="isDisable || isGeneratedOTP" (click)="generateOTP()">Generate OTP </button>
+                            <ng-template #noncompleted>
+                                <h5>Process already completed!</h5>
+                            </ng-template>
+                            <span *ngIf="isDisabled">{{errorMessage}}</span>
+
                             <span *ngIf="isGeneratedOTP">
                                 Generated OTP is :
                                 <strong>{{generatedOTP}}</strong>

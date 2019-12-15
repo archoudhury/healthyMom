@@ -25,10 +25,12 @@ export class ToDoComponent implements OnInit {
     counter$: Observable<number>;
     count = 60;
     public sel = [];
+    public errorMessage: string = "";
 
     public generatedOTP: string = "";
     public isGeneratedOTP: boolean = false;
     public loading = false;
+    completed = false;
     private subs = new SubSink();
     @ViewChild('commentPoUp', { static: false }) public commentPoUp: ElementRef;
     public isDisable: boolean = false;
@@ -65,7 +67,7 @@ export class ToDoComponent implements OnInit {
         return EmployeeType[value]
     }
 
-    
+
     onSelect(selcted: any) {
         this.loading = true;
         this.renderer.removeStyle(this.commentPoUp.nativeElement, "display");
@@ -74,12 +76,20 @@ export class ToDoComponent implements OnInit {
         if (this.sel.length > 0 && this.sel[0].id != this.selected[0].id) {
             this.isGeneratedOTP = false;
         }
-        if (this.mother && selcted["selected"][0].motherId == this.mother.id) {
+        // if (this.selected[0].isCompleted) {
+        //     alert("Process already completed");
+        //     this.errorMessage = "Process already completed";
+        //     this.isDisable = true;
+        //     this.loading = false;
+        // } 
+        else if (this.mother && selcted["selected"][0].motherId == this.mother.id) {
             this.loading = false;
             if (this.checkDate(new Date(this.selected[0].date))) {
                 this.isDisable = false;
+                this.errorMessage = "";
             } else {
                 this.isDisable = true;
+                this.errorMessage = "Generating OTP is enabled only for todays date.";
             }
         } else {
             this.subs.sink = this.service.getMotherById(selcted["selected"][0].motherId).subscribe((result: IMother) => {
@@ -88,8 +98,9 @@ export class ToDoComponent implements OnInit {
                     this.loading = false;
                     if (this.checkDate(new Date(this.selected[0].date))) {
                         this.isDisable = false;
-
+                        this.errorMessage = "";
                     } else {
+                        this.errorMessage = "Generating OTP is enabled only for todays date.";
                         this.isDisable = true;
                     }
                 }
@@ -97,7 +108,11 @@ export class ToDoComponent implements OnInit {
         }
         this.sel = JSON.parse(JSON.stringify(this.selected));
 
-
+        if (this.selected[0].isCompleted) {
+            this.completed = true;
+        } else {
+            this.completed = false;
+        }
     }
 
     onActivate(event) {
